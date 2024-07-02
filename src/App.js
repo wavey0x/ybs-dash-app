@@ -63,11 +63,16 @@ function App() {
       '&:hover': {
         borderColor: 'none',
       },
+      '@media (max-width: 768px)': {
+       padding: '10px 0', // Adjust padding for mobile
+        marginBottom: '10px', // Space below the control for mobile
+      },
     }),
     option: (provided) => ({
       ...provided,
       display: 'flex',
       alignItems: 'center',
+      padding: '10px', // Adjust padding for mobile
     }),
     dropdownIndicator: (provided) => ({
       ...provided,

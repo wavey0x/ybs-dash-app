@@ -134,12 +134,6 @@ const fieldConfig = {
   },
   price_data: {
     order: [
-      'visible',
-      'decimals',
-      'isUSD',
-      'showLogo',
-      'showAddress',
-      'showCopyButton',
     ],
     visible: true,
     decimals: 4,

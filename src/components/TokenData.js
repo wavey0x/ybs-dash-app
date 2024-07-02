@@ -9,8 +9,6 @@ import {
   formatValue,
 } from '../utils/tokenHelpers';
 
-import exampleData from '../example_data.json';
-
 const CopyIcon = () => (
   <svg
     width="14"
@@ -37,7 +35,6 @@ const GenericERC20Icon = () => (
 );
 
 const TokenData = ({ token, data, tokens, setToken }) => {
-  const defaultToken = '0xFCc5c47bE19d06BF83eB04298b026F81069ff65b'; // Set the default token here
   const [activeTab, setActiveTab] = useState('ybs_data');
   const [copiedAddress, setCopiedAddress] = useState(null);
   const [activeWeekIndex, setActiveWeekIndex] = useState(null);

@@ -1,215 +1,303 @@
 .data-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.data-row {
-  display: flex;
-  align-items: center;
-  padding: 4px 0;
-}
-
-.data-label {
-  flex: 0 0 200px;
-  font-weight: 700;
-}
-
-.data-value {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.ethereum-address {
-  display: flex;
-  align-items: center;
-}
-
-.copy-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin-left: 5px;
-}
-
-.copied-message {
-  color: green;
-  font-size: 0.8em;
-  margin-left: 5px;
-}
-
-.price-data-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.price-data-row {
-  display: flex;
-  align-items: center;
-  padding: 4px 0;
-}
-
-.token-logo-container {
-  width: 16px;
-  height: 16px;
-  margin-right: 10px;
-}
-
-.token-logo {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.token-symbol {
-  flex: 0 0 100px;
-}
-
-.token-price {
-  flex: 0 0 150px;
-}
-
-.token-address-container {
-  flex: 1;
-}
-
-.etherscan-link {
-  color: inherit;
-  text-decoration: none;
-}
-
-.etherscan-link:hover {
-  text-decoration: underline;
-}
-
-body,
-.token-data {
-  font-family: 'Source Code Pro', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono',
-    monospace;
-}
-
-.grouped-row .data-value {
-  display: flex;
-  align-items: center;
-}
-
-.grouped-value {
-  margin-right: 5px;
-}
-
-.grouped-separator {
-  margin: 0 5px;
-  color: #666; /* Adjust color as needed */
-}
-
-.grouped-values {
-  display: flex;
-  align-items: center;
-}
-
-.token-selector {
-  margin-bottom: 1em;
-}
-
-.token-combo-box {
-  padding: 0.5em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1em;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: #fff
-    url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTYgOEwxMS4gNUwtNiAwTDIgNUgxM0xNMC4wIDE1LjggMkY9cm9uZyIgc3Ryb2tlPSIjNTE1NTIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW1pdGVyPSJyb3VuZCIvPjwvc3ZnPg==')
-    no-repeat right 0.75em center;
-  background-size: 1em;
-  cursor: pointer;
-  outline: none;
-}
-
-.combo-box-logo {
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
-.token-header-logo {
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
-.token-symbol {
-  font-weight: bold;
-}
-
-.token-address {
-  font-size: 0.8em;
-  font-weight: normal;
-}
-
-.token-address .ethereum-address {
-  display: inline-flex;
-  align-items: center;
-}
-
-.token-address .copy-button {
-  margin-left: 5px;
-}
-
-.token-address .copied-message {
-  margin-left: 5px;
-}
-
-.ybs-data-container {
-  position: relative;
-  padding-top: 40px; /* Add space for the week selector */
-}
-
-.week-selector {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.week-selector button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.week-selector button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.ybs-data {
-  margin-top: 10px;
-}
-
-.data-separator {
-  display: flex;
-  align-items: center;
-  margin: 1px 0;
-  color: #999;
-}
-
-.separator-text {
-  margin-right: 10px;
-  font-weight: bold;
-  font-size: 0.9em;
-}
-
-.data-separator hr {
-  flex-grow: 1;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 0;
-}
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .data-row {
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+  }
+  
+  .data-label {
+    flex: 0 0 200px;
+    font-weight: 700;
+  }
+  
+  .data-value {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  
+  .ethereum-address {
+    display: flex;
+    align-items: center;
+  }
+  
+  .copy-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 5px;
+  }
+  
+  .copied-message {
+    color: green;
+    font-size: 0.8em;
+    margin-left: 5px;
+  }
+  
+  .price-data-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .price-data-row {
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+    justify-content: space-between;
+  }
+  
+  @media (max-width: 768px) {
+    .price-data-row {
+      flex-direction: column; /* Align items vertically on mobile */
+      align-items: flex-start; /* Align items to the start */
+    }
+  }
+  
+  .token-logo-container {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+  }
+  
+  .token-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .token-symbol {
+    flex: 0 0 auto;
+    margin-right: 10px;
+  }
+  
+  .token-price {
+    flex: 0 0 auto;
+    margin-right: 10px;
+  }
+  
+  .token-address-container {
+    flex: 1;
+  }
+  
+  .etherscan-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .etherscan-link:hover {
+    text-decoration: underline;
+  }
+  
+  body,
+  .token-data {
+    font-family: 'Source Code Pro', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono',
+      monospace;
+  }
+  
+  .grouped-row .data-value {
+    display: flex;
+    align-items: center;
+  }
+  
+  .grouped-value {
+    margin-right: 5px;
+  }
+  
+  .grouped-separator {
+    margin: 0 5px;
+    color: #666; /* Adjust color as needed */
+  }
+  
+  .grouped-values {
+    display: flex;
+    align-items: center;
+  }
+  
+  .token-selector {
+    margin-bottom: 1em;
+  }
+  
+  .token-combo-box {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #fff
+      url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTYgOEwxMS4gNUwtNiAwTDIgNUgxM0xNMC4wIDE1LjggMkY9cm9uZyIgc3Ryb2tlPSIjNTE1NTIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW1pdGVyPSJyb3VuZCIvPjwvc3ZnPg==')
+      no-repeat right 0.75em center;
+    background-size: 1em;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .combo-box-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  
+  .token-header-logo {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  
+  .token-symbol {
+    font-weight: bold;
+  }
+  
+  .token-address {
+    font-size: 0.8em;
+    font-weight: normal;
+  }
+  
+  .token-address .ethereum-address {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .token-address .copy-button {
+    margin-left: 5px;
+  }
+  
+  .token-address .copied-message {
+    margin-left: 5px;
+  }
+  
+  .ybs-data-container {
+    position: relative;
+    padding-top: 40px; /* Add space for the week selector */
+  }
+  
+  .week-selector {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .week-selector button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .week-selector button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .ybs-data {
+    margin-top: 10px;
+  }
+  
+  .data-separator {
+    display: flex;
+    align-items: center;
+    margin: 1px 0;
+    color: #999;
+  }
+  
+  .separator-text {
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 0.9em;
+  }
+  
+  .data-separator hr {
+    flex-grow: 1;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 0;
+  }
+  
+  .burner-balances-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .burner-balance-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    flex-wrap: wrap; /* Add this line for mobile */
+  }
+  
+  .burner-balance {
+    font-weight: 700;
+    margin-right: 10px;
+  }
+  
+  .burner-token {
+    font-weight: 400;
+    color: #666;
+  }
+  
+  @media (max-width: 768px) {
+    .burner-balance-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .burner-balance,
+    .burner-token {
+      flex: 1 0 100%;
+      margin-bottom: 4px; /* Space between elements for mobile */
+    }
+  
+    .token-header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .tabs {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+  
+    .tabs button {
+      width: 100%;
+      text-align: left;
+    }
+  
+    .tab-content {
+      padding: 10px;
+    }
+  }
+  
+  .price-data-row .token-symbol,
+  .price-data-row .token-price,
+  .price-data-row .token-address-container {
+    flex: 0 1 auto;
+    margin-right: 10px;
+  }
+  
+  @media (min-width: 769px) {
+    .price-data-row .token-symbol {
+      width: 100px; /* Set fixed width for better alignment */
+    }
+  
+    .price-data-row .token-price {
+      width: 150px; /* Set fixed width for better alignment */
+    }
+  
+    .price-data-row .token-address-container {
+      width: 250px; /* Set fixed width for better alignment */
+    }
+  }
+  
