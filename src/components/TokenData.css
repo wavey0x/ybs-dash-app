@@ -1,0 +1,109 @@
+/* General styles for all tabs */
+.data-container {
+    display: grid;
+    grid-template-columns: minmax(150px, auto) minmax(200px, 1fr);
+    gap: 5px 10px;
+    align-items: start;
+  }
+  
+  .data-item {
+    display: contents;
+  }
+  
+  .data-label {
+    font-weight: bold;
+    padding-right: 10px;
+  }
+  
+  .data-value {
+    text-align: left;
+    word-break: break-word;
+  }
+  
+  /* Specific styles for price tab */
+  .price-data-container {
+    display: grid;
+    grid-template-columns: auto auto minmax(120px, auto) 1fr;
+    gap: 5px 10px;
+    align-items: center;
+  }
+  
+  .price-data-item {
+    display: contents;
+  }
+  
+  .token-logo {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .token-symbol {
+    font-weight: bold;
+    padding-right: 10px;
+  }
+  
+  .token-price {
+    text-align: left;
+    white-space: nowrap;
+  }
+  
+  .token-address-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  .token-address {
+    color: #666;
+    font-size: 0.9em;
+    margin-right: 5px;
+  }
+  
+  .copy-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .copied-message {
+    color: green;
+    font-size: 0.8em;
+    grid-column: span 4;
+  }
+  
+  /* Tab styles */
+  .tabs {
+    display: flex;
+    margin-bottom: 15px;
+  }
+  
+  .tabs button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .tabs button.active {
+    background-color: #ddd;
+  }
+  
+  /* General styles */
+  .token-data {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+  }
+  
+  .tab-content {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+  }
