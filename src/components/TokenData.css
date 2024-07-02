@@ -7,12 +7,10 @@
   display: flex;
   align-items: center;
   padding: 4px 0;
-  /* border-bottom: 1px solid #eee; */
 }
 
 .data-label {
   flex: 0 0 200px;
-  /* font-weight: bold; */
   font-weight: 700;
 }
 
@@ -50,7 +48,6 @@
   display: flex;
   align-items: center;
   padding: 4px 0;
-  /* border-bottom: 1px solid #eee; */
 }
 
 .token-logo-container {
@@ -78,110 +75,141 @@
 }
 
 .etherscan-link {
-    color: inherit;
-    text-decoration: none;
-  }
-  
-  .etherscan-link:hover {
-    text-decoration: underline;
-  }
-  
-  .ethereum-address {
-    display: flex;
-    align-items: center;
-  }
-  
-  .copy-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    margin-left: 5px;
-  }
-  
-  .copied-message {
-    color: green;
-    font-size: 0.8em;
-    margin-left: 5px;
-  }
+  color: inherit;
+  text-decoration: none;
+}
 
-  body, .token-data {
-    font-family: 'Source Code Pro', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-  }
+.etherscan-link:hover {
+  text-decoration: underline;
+}
 
-  .grouped-row .data-value {
-    display: flex;
-    align-items: center;
-  }
-  
-  .grouped-value {
-    margin-right: 5px;
-  }
-  
-  .grouped-separator {
-    margin: 0 5px;
-    color: #666; /* Adjust color as needed */
-  }
-  
-  .grouped-values {
-    display: flex;
-    align-items: center;
-  }
+body,
+.token-data {
+  font-family: 'Source Code Pro', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono',
+    monospace;
+}
 
-  .token-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .token-symbol {
-    font-weight: bold;
-  }
-  
-  .token-address {
-    font-size: 0.8em;
-    font-weight: normal;
-  }
-  
-  .token-address .ethereum-address {
-    display: inline-flex;
-    align-items: center;
-  }
-  
-  .token-address .copy-button {
-    margin-left: 5px;
-  }
-  
-  .token-address .copied-message {
-    margin-left: 5px;
-  }
+.grouped-row .data-value {
+  display: flex;
+  align-items: center;
+}
 
-  .ybs-data-container {
-    position: relative;
-    padding-top: 40px; /* Add space for the week selector */
-  }
-  
-  .week-selector {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .week-selector button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-  }
-  
-  .week-selector button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  .ybs-data {
-    margin-top: 10px;
-  }
+.grouped-value {
+  margin-right: 5px;
+}
+
+.grouped-separator {
+  margin: 0 5px;
+  color: #666; /* Adjust color as needed */
+}
+
+.grouped-values {
+  display: flex;
+  align-items: center;
+}
+
+.token-selector {
+  margin-bottom: 1em;
+}
+
+.token-combo-box {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #fff
+    url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTYgOEwxMS4gNUwtNiAwTDIgNUgxM0xNMC4wIDE1LjggMkY9cm9uZyIgc3Ryb2tlPSIjNTE1NTIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLW1pdGVyPSJyb3VuZCIvPjwvc3ZnPg==')
+    no-repeat right 0.75em center;
+  background-size: 1em;
+  cursor: pointer;
+  outline: none;
+}
+
+.combo-box-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.token-header-logo {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.token-symbol {
+  font-weight: bold;
+}
+
+.token-address {
+  font-size: 0.8em;
+  font-weight: normal;
+}
+
+.token-address .ethereum-address {
+  display: inline-flex;
+  align-items: center;
+}
+
+.token-address .copy-button {
+  margin-left: 5px;
+}
+
+.token-address .copied-message {
+  margin-left: 5px;
+}
+
+.ybs-data-container {
+  position: relative;
+  padding-top: 40px; /* Add space for the week selector */
+}
+
+.week-selector {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.week-selector button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.week-selector button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ybs-data {
+  margin-top: 10px;
+}
+
+.data-separator {
+  display: flex;
+  align-items: center;
+  margin: 1px 0;
+  color: #999;
+}
+
+.separator-text {
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.data-separator hr {
+  flex-grow: 1;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 0;
+}

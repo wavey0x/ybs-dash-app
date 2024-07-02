@@ -42,13 +42,7 @@ const TokenData = ({ token, data, tokens }) => {
 
   useEffect(() => {
     // Reset activeWeekIndex when token changes
-    const weeklyData = data.ybs_data?.weekly_data;
-    const weekIndices = weeklyData
-      ? Object.keys(weeklyData)
-          .map(Number)
-          .sort((a, b) => b - a)
-      : [];
-    setActiveWeekIndex(weekIndices.length > 0 ? weekIndices[0] : null);
+    setActiveWeekIndex(null);
   }, [token]);
 
   const renderGroupedFields = (groupConfig, obj) => {
@@ -67,24 +61,29 @@ const TokenData = ({ token, data, tokens }) => {
   };
 
   const renderYBSData = (ybsData) => {
-    if (!ybsData) {
+    if (!ybsData || !ybsData.weekly_data) {
       return <div>No YBS data available</div>;
     }
 
     const weeklyData = ybsData.weekly_data;
-    const weekIndices = weeklyData
-      ? Object.keys(weeklyData)
-          .map(Number)
-          .sort((a, b) => b - a)
-      : [];
+    const weekIndices = Object.keys(weeklyData)
+      .map(Number)
+      .sort((a, b) => b - a);
 
-    if (weekIndices.length === 0 && !ybsData.ybs) {
+    if (weekIndices.length === 0) {
       return <div>No weekly data available</div>;
     }
 
-    const currentWeekData =
-      activeWeekIndex !== null ? weeklyData[activeWeekIndex] : {};
-    const orderedFields = fieldConfig.ybs_data.order;
+    if (activeWeekIndex === null) {
+      setActiveWeekIndex(weekIndices[0]);
+      return null; // Return null to avoid rendering with null activeWeekIndex
+    }
+
+    const currentWeekData = weeklyData[activeWeekIndex];
+
+    if (!currentWeekData) {
+      return <div>No data available for the selected week</div>;
+    }
 
     const changeWeek = (direction) => {
       const currentIndex = weekIndices.indexOf(activeWeekIndex);
@@ -97,48 +96,29 @@ const TokenData = ({ token, data, tokens }) => {
 
     return (
       <div className="ybs-data-container">
-        {weekIndices.length > 0 && (
-          <div className="week-selector">
-            <button
-              onClick={() => changeWeek('prev')}
-              disabled={
-                weekIndices.indexOf(activeWeekIndex) === weekIndices.length - 1
-              }
-            >
-              &lt;
-            </button>
-            <span>Week {activeWeekIndex}</span>
-            <button
-              onClick={() => changeWeek('next')}
-              disabled={weekIndices.indexOf(activeWeekIndex) === 0}
-            >
-              &gt;
-            </button>
-          </div>
-        )}
-        <div className="ybs-data">
-          {orderedFields.map((key, index) => {
-            if (key === 'order') return null; // Skip the order key
-            const config =
-              fieldConfig?.ybs_data?.[key] ||
-              fieldConfig?.ybs_data?.weekly_data?.[key];
-            if (!config) {
-              // Render separator
-              return (
-                <div key={`separator-${index}`} className="data-separator">
-                  <span className="separator-text">{key}</span>
-                  <hr />
-                </div>
-              );
+        <div className="week-selector">
+          <button
+            onClick={() => changeWeek('prev')}
+            disabled={
+              weekIndices.indexOf(activeWeekIndex) === weekIndices.length - 1
             }
-            if (!config.visible) return null;
-
-            const value = key === 'ybs' ? ybsData[key] : currentWeekData?.[key];
-            if (value === undefined) return null; // Skip rendering if value is undefined
+          >
+            &lt;
+          </button>
+          <span>Week {activeWeekIndex}</span>
+          <button
+            onClick={() => changeWeek('next')}
+            disabled={weekIndices.indexOf(activeWeekIndex) === 0}
+          >
+            &gt;
+          </button>
+        </div>
+        <div className="ybs-data">
+          {Object.entries(currentWeekData).map(([key, value]) => {
+            const config = fieldConfig?.ybs_data?.weekly_data?.[key];
+            if (!config || !config.visible) return null;
 
             let formattedValue = formatValue(value, config);
-            if (isEthereumAddress(value))
-              formattedValue = renderValueWithCopyButton(value);
             if (config.isTimestamp) {
               formattedValue = new Date(value * 1000).toLocaleString();
             }
@@ -181,12 +161,9 @@ const TokenData = ({ token, data, tokens }) => {
   };
 
   const renderData = (obj, section) => {
-    if (!fieldConfig[section]) return <div>No data available</div>;
-
     if (section === 'ybs_data') {
       return renderYBSData(obj);
     }
-
     if (section === 'price_data') {
       const config = fieldConfig.price_data;
       return (
@@ -231,23 +208,9 @@ const TokenData = ({ token, data, tokens }) => {
         </div>
       );
     } else {
-      const orderedFields =
-        fieldConfig[section]?.order || Object.keys(fieldConfig[section]);
-
       return (
         <div className="data-container">
-          {orderedFields.map((key) => {
-            if (key === 'order') return null; // Skip the order key
-            const config = fieldConfig[section][key];
-            if (!config) {
-              // Render separator
-              return (
-                <div key={key} className="data-separator">
-                  <span className="separator-text">{key}</span>
-                  <hr />
-                </div>
-              );
-            }
+          {Object.entries(fieldConfig[section] || {}).map(([key, config]) => {
             if (!config.visible) return null;
 
             const label =
@@ -267,12 +230,6 @@ const TokenData = ({ token, data, tokens }) => {
 
             const value = obj[key];
             let formattedValue = formatValue(value, config);
-
-            if (Array.isArray(value) && config.isPct) {
-              formattedValue = value
-                .map((v) => `${(v * 100).toFixed(2)}%`)
-                .join(' | ');
-            }
 
             if (typeof value === 'object' && value !== null) {
               return (
