@@ -64,6 +64,7 @@ const TokenData = ({ token, data }) => {
       setTimeout(() => setCopiedAddress(null), 2000); // Reset after 2 seconds
     });
   };
+
   const isValidUrl = (url) => {
     try {
       new URL(url);
@@ -74,20 +75,15 @@ const TokenData = ({ token, data }) => {
   };
 
   const renderYBSData = (ybsData) => {
-    console.log('YBS Data:', ybsData);
 
     if (!ybsData || !ybsData.weekly_data) {
-      console.error('Invalid YBS data structure');
       return <div>No YBS data available</div>;
     }
 
     const weeklyData = ybsData.weekly_data;
     const weekIndices = Object.keys(weeklyData).map(Number).sort((a, b) => b - a);
-    
-    console.log('Week Indices:', weekIndices);
 
     if (weekIndices.length === 0) {
-      console.error('No weekly data available');
       return <div>No weekly data available</div>;
     }
 
@@ -98,10 +94,7 @@ const TokenData = ({ token, data }) => {
 
     const currentWeekData = weeklyData[activeWeekIndex];
 
-    console.log('Current Week Data:', currentWeekData);
-
     if (!currentWeekData) {
-      console.error(`No data for week ${activeWeekIndex}`);
       return <div>No data available for the selected week</div>;
     }
 
@@ -114,51 +107,57 @@ const TokenData = ({ token, data }) => {
     };
 
     return (
-        <div className="ybs-data-container">
-          <div className="week-selector">
-          <button onClick={() => changeWeek('prev')} disabled={weekIndices.indexOf(activeWeekIndex) === weekIndices.length - 1}>
+      <div className="ybs-data-container">
+        <div className="week-selector">
+          <button
+            onClick={() => changeWeek('prev')}
+            disabled={weekIndices.indexOf(activeWeekIndex) === weekIndices.length - 1}
+          >
             &lt;
           </button>
           <span>Week {activeWeekIndex}</span>
-          <button onClick={() => changeWeek('next')} disabled={weekIndices.indexOf(activeWeekIndex) === 0}>
+          <button
+            onClick={() => changeWeek('next')}
+            disabled={weekIndices.indexOf(activeWeekIndex) === 0}
+          >
             &gt;
           </button>
         </div>
-          <div className="ybs-data">
-            {Object.entries(currentWeekData).map(([key, value]) => {
-              const config = fieldConfig.ybs_data.weekly_data[key];
-              if (!config || !config.visible) return null;
-    
-              let formattedValue = formatValue(value, config);
-              if (config.isTimestamp) {
-                formattedValue = new Date(value * 1000).toLocaleString();
-              }
-    
-              return (
-                <div key={key} className="data-row">
-                  <div className="data-label">{config.label}:</div>
-                  <div className="data-value">{formattedValue}</div>
-                </div>
-              );
-            })}
-          </div>
+        <div className="ybs-data">
+          {Object.entries(currentWeekData).map(([key, value]) => {
+            const config = fieldConfig?.ybs_data?.weekly_data?.[key];
+            if (!config || !config.visible) return null;
+
+            let formattedValue = formatValue(value, config);
+            if (config.isTimestamp) {
+              formattedValue = new Date(value * 1000).toLocaleString();
+            }
+
+            return (
+              <div key={key} className="data-row">
+                <div className="data-label">{config.label}:</div>
+                <div className="data-value">{formattedValue}</div>
+              </div>
+            );
+          })}
         </div>
-      );
+      </div>
+    );
   };
 
   const renderValueWithCopyButton = (value) => {
     return (
       <div className="ethereum-address">
-        <a 
-          href={`https://etherscan.io/address/${value}`} 
-          target="_blank" 
+        <a
+          href={`https://etherscan.io/address/${value}`}
+          target="_blank"
           rel="noopener noreferrer"
           className="etherscan-link"
         >
           {truncateAddress(value)}
         </a>
-        <button 
-          className="copy-button" 
+        <button
+          className="copy-button"
           onClick={() => copyToClipboard(value)}
           title="Copy full address"
         >
@@ -183,6 +182,8 @@ const TokenData = ({ token, data }) => {
           }) + '%';
       } else if (config.isUSD) {
         formattedNumber = '$' + formattedNumber;
+      } else if (config.isMultiplier) {
+        formattedNumber += 'x';
       }
       return formattedNumber;
     } else if (typeof value === 'boolean') {
@@ -193,21 +194,26 @@ const TokenData = ({ token, data }) => {
 
   const renderData = (obj, section) => {
     if (section === 'ybs_data') {
-        return renderYBSData(obj);
-      }
+      return renderYBSData(obj);
+    }
     if (section === 'price_data') {
       const config = fieldConfig.price_data;
       return (
         <div className="price-data-container">
           {Object.entries(obj).map(([address, tokenData]) => {
             const { symbol, logoURI, price } = tokenData;
-            
+
             return (
               <div key={address} className="price-data-row">
                 {config.showLogo && (
                   <div className="token-logo-container">
                     {isValidUrl(logoURI) ? (
-                      <img src={logoURI} alt={symbol} className="token-logo" onError={(e) => e.target.replaceWith(GenericERC20Icon())} />
+                      <img
+                        src={logoURI}
+                        alt={symbol}
+                        className="token-logo"
+                        onError={(e) => e.target.replaceWith(GenericERC20Icon())}
+                      />
                     ) : (
                       <GenericERC20Icon />
                     )}
@@ -215,7 +221,10 @@ const TokenData = ({ token, data }) => {
                 )}
                 <span className="token-symbol">{symbol}</span>
                 <span className="token-price">
-                  ${Number(price).toLocaleString(undefined, { minimumFractionDigits: config.decimals, maximumFractionDigits: config.decimals })}
+                  ${Number(price).toLocaleString(undefined, {
+                    minimumFractionDigits: config.decimals,
+                    maximumFractionDigits: config.decimals,
+                  })}
                 </span>
                 {config.showAddress && (
                   <div className="token-address-container">
@@ -233,18 +242,18 @@ const TokenData = ({ token, data }) => {
           {Object.entries(fieldConfig[section] || {}).map(([key, config]) => {
             if (!config.visible) return null;
 
-            const label = config.label || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            const label = config.label || key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
 
             if (config.group) {
-                return (
-                  <div key={key} className="data-row grouped-row">
-                    <div className="data-label">{label}:</div>
-                    <div className="data-value grouped-values">
-                      {renderGroupedFields(config, obj)}
-                    </div>
+              return (
+                <div key={key} className="data-row grouped-row">
+                  <div className="data-label">{label}:</div>
+                  <div className="data-value grouped-values">
+                    {renderGroupedFields(config, obj)}
                   </div>
-                );
-              }
+                </div>
+              );
+            }
 
             const value = obj[key];
             let formattedValue = formatValue(value, config);
@@ -287,13 +296,13 @@ const TokenData = ({ token, data }) => {
             className={activeTab === tab ? 'active' : ''}
             onClick={() => setActiveTab(tab)}
           >
-            {tab === 'ybs_data' ? 'YBS' : tab.replace(/_data/g, '').replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
+            {tab === 'ybs_data'
+              ? 'YBS'
+              : tab.replace(/_data/g, '').replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
           </button>
         ))}
       </div>
-      <div className="tab-content">
-        {renderData(data[activeTab] || {}, activeTab)}
-      </div>
+      <div className="tab-content">{renderData(data[activeTab] || {}, activeTab)}</div>
     </div>
   );
 };
