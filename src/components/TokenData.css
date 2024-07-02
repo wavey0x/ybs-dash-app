@@ -1,62 +1,94 @@
-/* General styles for all tabs */
 .data-container {
-    display: grid;
-    grid-template-columns: minmax(150px, auto) minmax(200px, 1fr);
-    gap: 5px 10px;
-    align-items: start;
+  display: flex;
+  flex-direction: column;
+}
+
+.data-row {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+  /* border-bottom: 1px solid #eee; */
+}
+
+.data-label {
+  flex: 0 0 200px;
+  /* font-weight: bold; */
+  font-weight: 700;
+}
+
+.data-value {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.ethereum-address {
+  display: flex;
+  align-items: center;
+}
+
+.copy-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 5px;
+}
+
+.copied-message {
+  color: green;
+  font-size: 0.8em;
+  margin-left: 5px;
+}
+
+.price-data-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-data-row {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+  /* border-bottom: 1px solid #eee; */
+}
+
+.token-logo-container {
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+}
+
+.token-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.token-symbol {
+  flex: 0 0 100px;
+}
+
+.token-price {
+  flex: 0 0 150px;
+}
+
+.token-address-container {
+  flex: 1;
+}
+
+.etherscan-link {
+    color: inherit;
+    text-decoration: none;
   }
   
-  .data-item {
-    display: contents;
+  .etherscan-link:hover {
+    text-decoration: underline;
   }
   
-  .data-label {
-    font-weight: bold;
-    padding-right: 10px;
-  }
-  
-  .data-value {
-    text-align: left;
-    word-break: break-word;
-  }
-  
-  /* Specific styles for price tab */
-  .price-data-container {
-    display: grid;
-    grid-template-columns: auto auto minmax(120px, auto) 1fr;
-    gap: 5px 10px;
-    align-items: center;
-  }
-  
-  .price-data-item {
-    display: contents;
-  }
-  
-  .token-logo {
-    width: 16px;
-    height: 16px;
-  }
-  
-  .token-symbol {
-    font-weight: bold;
-    padding-right: 10px;
-  }
-  
-  .token-price {
-    text-align: left;
-    white-space: nowrap;
-  }
-  
-  .token-address-container {
+  .ethereum-address {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-  }
-  
-  .token-address {
-    color: #666;
-    font-size: 0.9em;
-    margin-right: 5px;
   }
   
   .copy-button {
@@ -64,46 +96,92 @@
     border: none;
     cursor: pointer;
     padding: 0;
+    margin-left: 5px;
   }
   
   .copied-message {
     color: green;
     font-size: 0.8em;
-    grid-column: span 4;
+    margin-left: 5px;
   }
-  
-  /* Tab styles */
-  .tabs {
+
+  body, .token-data {
+    font-family: 'Source Code Pro', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  .grouped-row .data-value {
     display: flex;
-    margin-bottom: 15px;
+    align-items: center;
   }
   
-  .tabs button {
-    background-color: #f0f0f0;
+  .grouped-value {
+    margin-right: 5px;
+  }
+  
+  .grouped-separator {
+    margin: 0 5px;
+    color: #666; /* Adjust color as needed */
+  }
+  
+  .grouped-values {
+    display: flex;
+    align-items: center;
+  }
+
+  .token-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .token-symbol {
+    font-weight: bold;
+  }
+  
+  .token-address {
+    font-size: 0.8em;
+    font-weight: normal;
+  }
+  
+  .token-address .ethereum-address {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .token-address .copy-button {
+    margin-left: 5px;
+  }
+  
+  .token-address .copied-message {
+    margin-left: 5px;
+  }
+
+  .ybs-data-container {
+    position: relative;
+    padding-top: 40px; /* Add space for the week selector */
+  }
+  
+  .week-selector {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .week-selector button {
+    background: none;
     border: none;
-    padding: 10px 15px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 18px;
   }
   
-  .tabs button.active {
-    background-color: #ddd;
+  .week-selector button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
   
-  /* General styles */
-  .token-data {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  h2 {
-    margin-bottom: 20px;
-  }
-  
-  .tab-content {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 5px;
+  .ybs-data {
+    margin-top: 10px;
   }

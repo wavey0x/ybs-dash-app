@@ -42,13 +42,25 @@ const fieldConfig = {
     },
     price_data: {
       visible: true,
-      decimals: 4,
+      decimals: 6,
       isUSD: true,
       showLogo: true,
       showAddress: true,
       showCopyButton: true
     },
-    pipeline_data: { visible: true, label: "Pipeline Data" }
+    pipeline_data: { visible: true, label: "Pipeline Data" },
+    ybs_data: {
+      weekly_data: {
+        global_weight: { visible: true, decimals: 0, label: "Global Weight" },
+        global_balance: { visible: true, decimals: 0, label: "Global Balance" },
+        start_time: { visible: true, label: "Week Start", isTimestamp: true },
+        start_block: { visible: false, decimals: 0, label: "Start Block" },
+        system_avg_boost: { visible: true, decimals: 4, label: "System Avg Boost" },
+        strategy_weight: { visible: true, decimals: 2, label: "Strategy Weight" },
+        strategy_balance: { visible: true, decimals: 2, label: "Strategy Balance" },
+        strategy_boost: { visible: true, decimals: 4, label: "Strategy Boost" }
+      }
+    }
   };
   
   export default fieldConfig;

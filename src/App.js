@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     try {
       const localData = JSON.parse(process.env.REACT_APP_LOCAL_DATA || '{}');
-      
+
       if (Object.keys(localData).length === 0) {
         throw new Error('No data available in the environment variable');
       }
@@ -19,7 +19,9 @@ function App() {
       setSelectedToken(Object.keys(localData)[0]);
     } catch (err) {
       console.error('Error parsing data:', err);
-      setError('Error loading data. Please check the console for more information.');
+      setError(
+        'Error loading data. Please check the console for more information.'
+      );
     }
   }, []);
 
