@@ -3,6 +3,9 @@ import Select from 'react-select';
 import TokenData from './components/TokenData';
 import './App.css';
 
+// Import the data from the json file
+import exampleData from './example_data.json';
+
 function App() {
   const [data, setData] = useState(null);
   const [selectedToken, setSelectedToken] = useState(null);
@@ -10,14 +13,13 @@ function App() {
 
   useEffect(() => {
     try {
-      const localData = JSON.parse(process.env.REACT_APP_LOCAL_DATA || '{}');
 
-      if (Object.keys(localData).length === 0) {
+      if (Object.keys(exampleData).length === 0) {
         throw new Error('No data available in the environment variable');
       }
 
-      setData(localData);
-      setSelectedToken(Object.keys(localData)[0]);
+      setData(exampleData);
+      setSelectedToken(Object.keys(exampleData)[0]);
     } catch (err) {
       console.error('Error parsing data:', err);
       setError(
