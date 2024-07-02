@@ -11,6 +11,7 @@ function App() {
   const [selectedToken, setSelectedToken] = useState(null);
   const [error, setError] = useState(null);
 
+  const defaultToken = '0xFCc5c47bE19d06BF83eB04298b026F81069ff65b'; // Set the default token here
   useEffect(() => {
     try {
       if (Object.keys(exampleData).length === 0) {
@@ -18,7 +19,7 @@ function App() {
       }
 
       setData(exampleData);
-      setSelectedToken(Object.keys(exampleData)[0]);
+      setSelectedToken(defaultToken);
     } catch (err) {
       console.error('Error parsing data:', err);
       setError(
@@ -109,6 +110,7 @@ function App() {
           token={selectedToken}
           data={data[selectedToken]}
           tokens={tokens}
+          setToken={setSelectedToken}
         />
       )}
     </div>

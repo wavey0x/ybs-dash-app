@@ -9,6 +9,8 @@ import {
   formatValue,
 } from '../utils/tokenHelpers';
 
+import exampleData from '../example_data.json';
+
 const CopyIcon = () => (
   <svg
     width="14"
@@ -34,9 +36,8 @@ const GenericERC20Icon = () => (
   </svg>
 );
 
-const TokenData = ({ data, tokens }) => {
+const TokenData = ({ token, data, tokens, setToken }) => {
   const defaultToken = '0xFCc5c47bE19d06BF83eB04298b026F81069ff65b'; // Set the default token here
-  const [token, setToken] = useState(defaultToken);
   const [activeTab, setActiveTab] = useState('ybs_data');
   const [copiedAddress, setCopiedAddress] = useState(null);
   const [activeWeekIndex, setActiveWeekIndex] = useState(null);
@@ -51,6 +52,10 @@ const TokenData = ({ data, tokens }) => {
       : [];
     setActiveWeekIndex(weekIndices.length > 0 ? weekIndices[0] : null);
   }, [token, data.ybs_data?.weekly_data]);
+
+  useEffect(() => {
+    setToken(token);
+  }, [token, setToken]);
 
   const renderGroupedFields = (groupConfig, obj) => {
     return groupConfig.group.map((field, index) => {
