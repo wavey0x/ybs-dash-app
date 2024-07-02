@@ -7,7 +7,6 @@ import {
   copyToClipboard,
   isValidUrl,
   formatValue,
-  getTokenLogo,
 } from '../utils/tokenHelpers';
 
 const CopyIcon = () => (
@@ -49,7 +48,7 @@ const TokenData = ({ token, data, tokens }) => {
           .sort((a, b) => b - a)
       : [];
     setActiveWeekIndex(weekIndices.length > 0 ? weekIndices[0] : null);
-  }, [token]);
+  }, [token, data.ybs_data?.weekly_data]);
 
   const renderGroupedFields = (groupConfig, obj) => {
     return groupConfig.group.map((field, index) => {
@@ -180,20 +179,92 @@ const TokenData = ({ token, data, tokens }) => {
     );
   };
 
+  const renderBurnerBalances = (burnerBalances) => {
+    return (
+      <div className="burner-balances-container">
+        {Object.entries(burnerBalances).map(([address, { symbol, balance }]) => (
+          <div key={address} className="burner-balance-row">
+            
+            <span className="burner-balance">
+              {Number(balance).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+              
+            </span>
+            <span className="burner-token"> {symbol}</span>
+            {/* <span className="burner-address">{renderValueWithCopyButton(address)}</span> */}
+          </div>
+        ))}
+      </div>
+    );
+  };
+  
+  const renderPipelineData = (pipelineData) => {
+    const orderedFields = fieldConfig.pipeline_data.order;
+  
+    return (
+      <div className="data-container">
+        {orderedFields.map((key) => {
+          if (key === 'order') return null; // Skip the order key
+          const config = fieldConfig.pipeline_data[key];
+          if (!config) {
+            // Render separator
+            return (
+              <div key={`separator-${key}`} className="data-separator">
+                <span className="separator-text">{key}</span>
+                <hr />
+              </div>
+            );
+          }
+          if (!config.visible) return null;
+  
+          const label =
+            config.label ||
+            key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+  
+          const value = pipelineData[key];
+          let formattedValue = formatValue(value, config);
+          if (isEthereumAddress(value))
+            formattedValue = renderValueWithCopyButton(value);
+  
+          if (Array.isArray(value)) {
+            formattedValue = value.map((v) => `${(v * 100).toFixed(2)}%`).join(' | ');
+          }
+  
+          if (key === 'burner_balances' && typeof value === 'object') {
+            formattedValue = renderBurnerBalances(value);
+          }
+          if (key === 'receiver_balance') {
+            formattedValue = formattedValue + " crvUSD";
+          }
+  
+  
+          return (
+            <div key={key} className="data-row">
+              <div className="data-label">{label}:</div>
+              <div className="data-value">{formattedValue}</div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   const renderData = (obj, section) => {
     if (!fieldConfig[section]) return <div>No data available</div>;
-
+  
     if (section === 'ybs_data') {
       return renderYBSData(obj);
     }
-
+  
     if (section === 'price_data') {
       const config = fieldConfig.price_data;
       return (
         <div className="price-data-container">
           {Object.entries(obj).map(([address, tokenData]) => {
             const { symbol, logoURI, price } = tokenData;
-
+  
             return (
               <div key={address} className="price-data-row">
                 {config.showLogo && (
@@ -230,81 +301,86 @@ const TokenData = ({ token, data, tokens }) => {
           })}
         </div>
       );
-    } else {
-      const orderedFields =
-        fieldConfig[section]?.order || Object.keys(fieldConfig[section]);
-
-      return (
-        <div className="data-container">
-          {orderedFields.map((key) => {
-            if (key === 'order') return null; // Skip the order key
-            const config = fieldConfig[section][key];
-            if (!config) {
-              // Render separator
-              return (
-                <div key={key} className="data-separator">
-                  <span className="separator-text">{key}</span>
-                  <hr />
-                </div>
-              );
-            }
-            if (!config.visible) return null;
-
-            const label =
-              config.label ||
-              key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
-
-            if (config.group) {
-              return (
-                <div key={key} className="data-row grouped-row">
-                  <div className="data-label">{label}:</div>
-                  <div className="data-value grouped-values">
-                    {renderGroupedFields(config, obj)}
-                  </div>
-                </div>
-              );
-            }
-
-            const value = obj[key];
-            let formattedValue = formatValue(value, config);
-
-            if (Array.isArray(value) && config.isPct) {
-              formattedValue = value
-                .map((v) => `${(v * 100).toFixed(2)}%`)
-                .join(' | ');
-            }
-
-            if (typeof value === 'object' && value !== null) {
-              return (
-                <React.Fragment key={key}>
-                  <div className="data-label">{label}</div>
-                  <div className="data-value">{renderData(value, key)}</div>
-                </React.Fragment>
-              );
-            }
-
+    }
+  
+    if (section === 'pipeline_data') {
+      return renderPipelineData(obj);
+    }
+  
+    const orderedFields =
+      fieldConfig[section]?.order || Object.keys(fieldConfig[section]);
+  
+    return (
+      <div className="data-container">
+        {orderedFields.map((key) => {
+          if (key === 'order') return null; // Skip the order key
+          const config = fieldConfig[section][key];
+          if (!config) {
+            // Render separator
             return (
-              <div key={key} className="data-row">
+              <div key={key} className="data-separator">
+                <span className="separator-text">{key}</span>
+                <hr />
+              </div>
+            );
+          }
+          if (!config.visible) return null;
+  
+          const label =
+            config.label ||
+            key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+  
+          if (config.group) {
+            return (
+              <div key={key} className="data-row grouped-row">
                 <div className="data-label">{label}:</div>
-                <div className="data-value">
-                  {isEthereumAddress(value)
-                    ? renderValueWithCopyButton(value)
-                    : formattedValue}
+                <div className="data-value grouped-values">
+                  {renderGroupedFields(config, obj)}
                 </div>
               </div>
             );
-          })}
-        </div>
-      );
-    }
+          }
+  
+          const value = obj[key];
+          let formattedValue = formatValue(value, config);
+  
+          if (Array.isArray(value) && config.isPct) {
+            formattedValue = value
+              .map((v) => `${(v * 100).toFixed(2)}%`)
+              .join(' | ');
+          }
+  
+          if (typeof value === 'object' && value !== null) {
+            return (
+              <React.Fragment key={key}>
+                <div className="data-label">{label}</div>
+                <div className="data-value">{renderData(value, key)}</div>
+              </React.Fragment>
+            );
+          }
+  
+          return (
+            <div key={key} className="data-row">
+              <div className="data-label">{label}:</div>
+              <div className="data-value">
+                {isEthereumAddress(value)
+                  ? renderValueWithCopyButton(value)
+                  : formattedValue}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
   };
+  
 
-  const tabs = [
+const tabs = [
     'ybs_data',
     'strategy_data',
     'peg_data',
     'price_data',
-    'pipeline_data',
+    ...(Object.keys(data.pipeline_data || {}).length > 0 ? ['pipeline_data'] : []),
   ];
 
   return (

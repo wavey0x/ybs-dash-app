@@ -26,10 +26,6 @@ function App() {
     }
   }, []);
 
-  const truncateAddress = (address) => {
-    return `${address.slice(0, 5)}...${address.slice(-3)}`;
-  };
-
   if (error) return <div className="error">{error}</div>;
   if (!data) return <div>Loading...</div>;
 
