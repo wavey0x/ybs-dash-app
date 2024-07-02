@@ -34,7 +34,9 @@ const GenericERC20Icon = () => (
   </svg>
 );
 
-const TokenData = ({ token, data, tokens }) => {
+const TokenData = ({ data, tokens }) => {
+  const defaultToken = '0xFCc5c47bE19d06BF83eB04298b026F81069ff65b'; // Set the default token here
+  const [token, setToken] = useState(defaultToken);
   const [activeTab, setActiveTab] = useState('ybs_data');
   const [copiedAddress, setCopiedAddress] = useState(null);
   const [activeWeekIndex, setActiveWeekIndex] = useState(null);
@@ -182,27 +184,27 @@ const TokenData = ({ token, data, tokens }) => {
   const renderBurnerBalances = (burnerBalances) => {
     return (
       <div className="burner-balances-container">
-        {Object.entries(burnerBalances).map(([address, { symbol, balance }]) => (
-          <div key={address} className="burner-balance-row">
-            
-            <span className="burner-balance">
-              {Number(balance).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-              
-            </span>
-            <span className="burner-token"> {symbol}</span>
-            {/* <span className="burner-address">{renderValueWithCopyButton(address)}</span> */}
-          </div>
-        ))}
+        {Object.entries(burnerBalances).map(
+          ([address, { symbol, balance }]) => (
+            <div key={address} className="burner-balance-row">
+              <span className="burner-balance">
+                {Number(balance).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+              <span className="burner-token"> {symbol}</span>
+              {/* <span className="burner-address">{renderValueWithCopyButton(address)}</span> */}
+            </div>
+          )
+        )}
       </div>
     );
   };
-  
+
   const renderPipelineData = (pipelineData) => {
     const orderedFields = fieldConfig.pipeline_data.order;
-  
+
     return (
       <div className="data-container">
         {orderedFields.map((key) => {
@@ -218,28 +220,29 @@ const TokenData = ({ token, data, tokens }) => {
             );
           }
           if (!config.visible) return null;
-  
+
           const label =
             config.label ||
             key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
-  
+
           const value = pipelineData[key];
           let formattedValue = formatValue(value, config);
           if (isEthereumAddress(value))
             formattedValue = renderValueWithCopyButton(value);
-  
+
           if (Array.isArray(value)) {
-            formattedValue = value.map((v) => `${(v * 100).toFixed(2)}%`).join(' | ');
+            formattedValue = value
+              .map((v) => `${(v * 100).toFixed(2)}%`)
+              .join(' | ');
           }
-  
+
           if (key === 'burner_balances' && typeof value === 'object') {
             formattedValue = renderBurnerBalances(value);
           }
           if (key === 'receiver_balance') {
-            formattedValue = formattedValue + " crvUSD";
+            formattedValue = formattedValue + ' crvUSD';
           }
-  
-  
+
           return (
             <div key={key} className="data-row">
               <div className="data-label">{label}:</div>
@@ -253,18 +256,18 @@ const TokenData = ({ token, data, tokens }) => {
 
   const renderData = (obj, section) => {
     if (!fieldConfig[section]) return <div>No data available</div>;
-  
+
     if (section === 'ybs_data') {
       return renderYBSData(obj);
     }
-  
+
     if (section === 'price_data') {
       const config = fieldConfig.price_data;
       return (
         <div className="price-data-container">
           {Object.entries(obj).map(([address, tokenData]) => {
             const { symbol, logoURI, price } = tokenData;
-  
+
             return (
               <div key={address} className="price-data-row">
                 {config.showLogo && (
@@ -302,14 +305,14 @@ const TokenData = ({ token, data, tokens }) => {
         </div>
       );
     }
-  
+
     if (section === 'pipeline_data') {
       return renderPipelineData(obj);
     }
-  
+
     const orderedFields =
       fieldConfig[section]?.order || Object.keys(fieldConfig[section]);
-  
+
     return (
       <div className="data-container">
         {orderedFields.map((key) => {
@@ -325,11 +328,11 @@ const TokenData = ({ token, data, tokens }) => {
             );
           }
           if (!config.visible) return null;
-  
+
           const label =
             config.label ||
             key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
-  
+
           if (config.group) {
             return (
               <div key={key} className="data-row grouped-row">
@@ -340,16 +343,16 @@ const TokenData = ({ token, data, tokens }) => {
               </div>
             );
           }
-  
+
           const value = obj[key];
           let formattedValue = formatValue(value, config);
-  
+
           if (Array.isArray(value) && config.isPct) {
             formattedValue = value
               .map((v) => `${(v * 100).toFixed(2)}%`)
               .join(' | ');
           }
-  
+
           if (typeof value === 'object' && value !== null) {
             return (
               <React.Fragment key={key}>
@@ -358,7 +361,7 @@ const TokenData = ({ token, data, tokens }) => {
               </React.Fragment>
             );
           }
-  
+
           return (
             <div key={key} className="data-row">
               <div className="data-label">{label}:</div>
@@ -373,14 +376,15 @@ const TokenData = ({ token, data, tokens }) => {
       </div>
     );
   };
-  
 
-const tabs = [
+  const tabs = [
     'ybs_data',
     'strategy_data',
     'peg_data',
     'price_data',
-    ...(Object.keys(data.pipeline_data || {}).length > 0 ? ['pipeline_data'] : []),
+    ...(Object.keys(data.pipeline_data || {}).length > 0
+      ? ['pipeline_data']
+      : []),
   ];
 
   return (

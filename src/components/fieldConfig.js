@@ -150,16 +150,16 @@ const fieldConfig = {
   },
   pipeline_data: {
     order: [
-    'fee_burner',
-    'splitter',
-    'receiver',
-    '',
-      
+      'fee_burner',
+      'splitter',
+      'receiver',
+      '',
+
       'split_ratio_admin_fees',
       'split_ratio_vote_incentives',
       '',
       'receiver_balance',
-      'burner_balances'
+      'burner_balances',
     ],
     receiver_balance: { visible: true, decimals: 0, label: 'Receiver balance' },
     fee_burner: { visible: true, label: 'Fee Burner' },

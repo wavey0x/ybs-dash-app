@@ -13,7 +13,6 @@ function App() {
 
   useEffect(() => {
     try {
-
       if (Object.keys(exampleData).length === 0) {
         throw new Error('No data available in the environment variable');
       }
