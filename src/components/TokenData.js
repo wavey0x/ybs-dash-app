@@ -323,8 +323,8 @@ const TokenData = ({ token, data, tokens, setToken }) => {
           if (!config) {
             // Render separator
             return (
-              <div key={key} className="data-separator">
-                <span className="separator-text">{key}</span>
+              <div key={key}>
+                <span>{key}</span>
                 <hr />
               </div>
             );
