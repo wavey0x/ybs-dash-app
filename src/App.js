@@ -174,6 +174,8 @@ function App() {
           onChange={(option) => setSelectedToken(option.value)}
           options={tokenOptions}
           styles={customStyles}
+          isSearchable={false}
+          inputProps={{readOnly:true}}
         />
       </div>
       <div className="main-content">
