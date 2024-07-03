@@ -91,3 +91,41 @@ h4 {
     padding: 10px;
   }
 }
+
+/* Prevent zoom on input fields */
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="tel"],
+input[type="search"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="time"],
+input[type="color"],
+select,
+textarea {
+  font-size: 16px;
+}
+
+/* Style the footer */
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center; /* Center text horizontally */
+  padding: 10px;
+  background-color: rgb(20, 20, 20);
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.countdown {
+  display: inline-block; /* Center the content within the text */
+  font-size: 14px;
+  color: white;
+}

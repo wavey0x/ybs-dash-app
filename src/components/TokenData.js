@@ -143,7 +143,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
             if (isEthereumAddress(value))
               formattedValue = renderValueWithCopyButton(value);
             if (config.isTimestamp) {
-              formattedValue = new Date(value * 1000).toLocaleString();
+              formattedValue = new Date(value * 1000).toLocaleDateString();
             }
 
             return (
@@ -216,7 +216,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
             // Render separator
             return (
               <div key={`separator-${key}`} className="data-separator">
-                <span className="separator-text">{key}</span>
+                <span className="separator-text">{key}</span>g
               </div>
             );
           }
