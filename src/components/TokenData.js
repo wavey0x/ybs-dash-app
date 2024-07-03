@@ -216,7 +216,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
             // Render separator
             return (
               <div key={`separator-${key}`} className="data-separator">
-                <span className="separator-text">{key}</span>g
+                <span className="separator-text">{key}</span>
               </div>
             );
           }
