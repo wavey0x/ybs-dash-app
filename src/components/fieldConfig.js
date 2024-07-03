@@ -133,8 +133,7 @@ const fieldConfig = {
     credit: { visible: true, decimals: 0, label: 'Credit' },
   },
   price_data: {
-    order: [
-    ],
+    order: [],
     visible: true,
     decimals: 4,
     isUSD: true,

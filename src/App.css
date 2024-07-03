@@ -93,20 +93,20 @@ h4 {
 }
 
 /* Prevent zoom on input fields */
-input[type="text"],
-input[type="number"],
-input[type="password"],
-input[type="email"],
-input[type="url"],
-input[type="tel"],
-input[type="search"],
-input[type="date"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="month"],
-input[type="week"],
-input[type="time"],
-input[type="color"],
+input[type='text'],
+input[type='number'],
+input[type='password'],
+input[type='email'],
+input[type='url'],
+input[type='tel'],
+input[type='search'],
+input[type='date'],
+input[type='datetime'],
+input[type='datetime-local'],
+input[type='month'],
+input[type='week'],
+input[type='time'],
+input[type='color'],
 select,
 textarea {
   font-size: 16px;
@@ -119,10 +119,10 @@ textarea {
   bottom: 0;
   width: 100%;
   text-align: center; /* Center text horizontally */
-  padding: 2px 10px;  /* Adjust padding to reduce height */
+  padding: 2px 10px; /* Adjust padding to reduce height */
   background-color: rgb(24, 24, 24);
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add shadow effect */
-  z-index: 1000;  /* Ensure footer is above other content */
+  z-index: 1000; /* Ensure footer is above other content */
 }
 
 .countdown {

@@ -20,7 +20,7 @@ function App() {
         const result = await response.json();
         const data = result.data;
         const lastUpdate = result.last_update;
-        
+
         if (Object.keys(data).length === 0) {
           throw new Error('No data available from the API');
         }
@@ -28,7 +28,6 @@ function App() {
         setData(data);
         setSelectedToken(defaultToken);
         setLastUpdate(lastUpdate);
-
       } catch (err) {
         console.error('Error parsing data:', err);
         setError(
@@ -93,7 +92,7 @@ function App() {
     } else {
       return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
     }
-  } 
+  }
 
   if (error) return <div className="error">{error}</div>;
   if (!data) return <div>Loading...</div>;
@@ -178,20 +177,18 @@ function App() {
         />
       </div>
       <div className="main-content">
-      {selectedToken && (
-        <TokenData
-          key={selectedToken}
-          token={selectedToken}
-          data={data[selectedToken]}
-          tokens={tokens}
-          setToken={setSelectedToken}
-        />
-      )}
+        {selectedToken && (
+          <TokenData
+            key={selectedToken}
+            token={selectedToken}
+            data={data[selectedToken]}
+            tokens={tokens}
+            setToken={setSelectedToken}
+          />
+        )}
       </div>
       <footer className="footer">
-        <div className="countdown">
-          {timeLeft}
-        </div>
+        <div className="countdown">{timeLeft}</div>
         {lastUpdate && (
           <div className="last-update">
             Data last updated: {getHumanReadableTimeSinceUpdate(lastUpdate)}

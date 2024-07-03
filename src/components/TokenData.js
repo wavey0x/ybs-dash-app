@@ -257,18 +257,18 @@ const TokenData = ({ token, data, tokens, setToken }) => {
 
   const renderData = (obj, section) => {
     if (!fieldConfig[section]) return <div>No data available</div>;
-  
+
     if (section === 'ybs_data') {
       return renderYBSData(obj);
     }
-  
+
     if (section === 'price_data') {
       const config = fieldConfig.price_data;
       return (
         <div className="price-data-container">
           {Object.entries(obj).map(([address, tokenData]) => {
             const { symbol, logoURI, price } = tokenData;
-  
+
             return (
               <div key={address} className="price-data-row">
                 {config.showLogo && (
@@ -306,14 +306,14 @@ const TokenData = ({ token, data, tokens, setToken }) => {
         </div>
       );
     }
-  
+
     if (section === 'pipeline_data') {
       return renderPipelineData(obj);
     }
-  
+
     const orderedFields =
       fieldConfig[section]?.order || Object.keys(fieldConfig[section]);
-  
+
     return (
       <div className="data-container">
         {orderedFields.map((key) => {
@@ -329,11 +329,11 @@ const TokenData = ({ token, data, tokens, setToken }) => {
             );
           }
           if (!config.visible) return null;
-  
+
           const label =
             config.label ||
             key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
-  
+
           if (config.group) {
             return (
               <div key={key} className="data-row grouped-row">
@@ -344,16 +344,16 @@ const TokenData = ({ token, data, tokens, setToken }) => {
               </div>
             );
           }
-  
+
           const value = obj[key];
           let formattedValue = formatValue(value, config);
-  
+
           if (Array.isArray(value) && config.isPct) {
             formattedValue = value
               .map((v) => `${(v * 100).toFixed(2)}%`)
               .join(' | ');
           }
-  
+
           if (typeof value === 'object' && value !== null) {
             return (
               <React.Fragment key={key}>
@@ -362,7 +362,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
               </React.Fragment>
             );
           }
-  
+
           return (
             <div key={key} className="data-row">
               <div className="data-label">{label}:</div>
@@ -377,7 +377,6 @@ const TokenData = ({ token, data, tokens, setToken }) => {
       </div>
     );
   };
-  
 
   const tabs = [
     'ybs_data',
