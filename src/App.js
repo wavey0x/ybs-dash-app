@@ -20,7 +20,7 @@ function App() {
         const result = await response.json();
         const data = result.data;
         const lastUpdate = result.last_update;
-
+        
         if (Object.keys(data).length === 0) {
           throw new Error('No data available from the API');
         }
