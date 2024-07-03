@@ -177,6 +177,7 @@ function App() {
           styles={customStyles}
         />
       </div>
+      <div className="main-content">
       {selectedToken && (
         <TokenData
           key={selectedToken}
@@ -186,13 +187,14 @@ function App() {
           setToken={setSelectedToken}
         />
       )}
+      </div>
       <footer className="footer">
         <div className="countdown">
           {timeLeft}
         </div>
         {lastUpdate && (
           <div className="last-update">
-            Data last updated {getHumanReadableTimeSinceUpdate(lastUpdate)}
+            Data last updated: {getHumanReadableTimeSinceUpdate(lastUpdate)}
           </div>
         )}
       </footer>

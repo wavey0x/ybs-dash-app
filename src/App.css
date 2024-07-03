@@ -119,24 +119,25 @@ textarea {
   bottom: 0;
   width: 100%;
   text-align: center; /* Center text horizontally */
-  padding: 1px 1px;  /* Adjust padding to reduce height */
-  background-color: rgb(20, 20, 20);
-  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+  padding: 2px 10px;  /* Adjust padding to reduce height */
+  background-color: rgb(24, 24, 24);
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add shadow effect */
   z-index: 1000;  /* Ensure footer is above other content */
 }
 
 .countdown {
-  display: inline-block; /* Center the content within the text */
-  font-size: 18px;
-  color: white;
+  font-size: 16px;
+  color: #ffffff;
+  margin-bottom: 0; /* Remove margin to reduce space */
 }
 
 .last-update {
   font-size: 12px;
-  color: white;
-  margin-top: 1px; /* Reduce margin to save space */
+  color: #ffffff;
+  margin-top: 0; /* Remove margin to reduce space */
 }
 
+/* Add padding-bottom to the main content to avoid overlap with the fixed footer */
 .main-content {
   padding-bottom: 40px; /* Adjust based on the height of your footer */
 }
