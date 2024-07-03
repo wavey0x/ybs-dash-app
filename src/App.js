@@ -8,6 +8,7 @@ function App() {
   const [selectedToken, setSelectedToken] = useState(null);
   const [error, setError] = useState(null);
   const [timeLeft, setTimeLeft] = useState(getTimeLeftUntilThursday());
+  const [lastUpdate, setLastUpdate] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,7 +17,9 @@ function App() {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const data = await response.json();
+        const result = await response.json();
+        const data = result.data;
+        const lastUpdate = result.last_update;
 
         if (Object.keys(data).length === 0) {
           throw new Error('No data available from the API');
@@ -24,6 +27,8 @@ function App() {
 
         setData(data);
         setSelectedToken(defaultToken);
+        setLastUpdate(lastUpdate);
+
       } catch (err) {
         console.error('Error parsing data:', err);
         setError(
@@ -71,6 +76,24 @@ function App() {
 
     return `${remainingDays}d ${remainingHours}h ${remainingMinutes}m ${remainingSeconds}s`;
   }
+
+  function getHumanReadableTimeSinceUpdate(lastUpdate) {
+    if (!lastUpdate) return '';
+
+    const now = Date.now();
+    const timeDifference = now - lastUpdate * 1000; // Convert to milliseconds
+    const minutes = Math.floor(timeDifference / 60000);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+      return `${days} day${days > 1 ? 's' : ''} ago`;
+    } else if (hours > 0) {
+      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    } else {
+      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    }
+  } 
 
   if (error) return <div className="error">{error}</div>;
   if (!data) return <div>Loading...</div>;
@@ -167,6 +190,11 @@ function App() {
         <div className="countdown">
           {timeLeft}
         </div>
+        {lastUpdate && (
+          <div className="last-update">
+            Data last updated {getHumanReadableTimeSinceUpdate(lastUpdate)}
+          </div>
+        )}
       </footer>
     </div>
   );
