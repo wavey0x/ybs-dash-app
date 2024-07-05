@@ -30,7 +30,7 @@ export const formatValue = (value, config) => {
 
     // Abbreviate large numbers
     if (value >= 1000000) {
-      formattedNumber = (value / 1000000).toFixed(3) + 'M';
+      formattedNumber = (value / 1000000).toFixed(2) + 'M';
     } else if (value >= 100000) {
       formattedNumber = (value / 1000).toFixed(0) + 'k';
     } else {

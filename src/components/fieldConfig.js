@@ -190,7 +190,7 @@ const fieldConfig = {
       start_block: { visible: false, decimals: 0, label: 'Start Block' },
       global_weight_data: {
         visible: true,
-        label: 'Global Weight | Balance',
+        label: 'Global Weight | Staked',
         group: [
           { key: 'global_weight', decimals: 0, isUSD: false },
           { key: 'global_balance', decimals: 0, isUSD: false },
@@ -215,7 +215,7 @@ const fieldConfig = {
       strategy_balance: { visible: true, decimals: 0, label: 'yvyCRV Staked' },
       strategy_weight_data: {
         visible: true,
-        label: 'yvyCRV Weight | Balance',
+        label: 'yvyCRV Weight | Staked',
         group: [
           { key: 'strategy_weight', decimals: 0, isUSD: false },
           { key: 'strategy_balance', decimals: 0, isUSD: false },
