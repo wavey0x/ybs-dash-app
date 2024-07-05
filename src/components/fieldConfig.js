@@ -167,7 +167,7 @@ const fieldConfig = {
     },
     split_ratio_vote_incentives: {
       visible: true,
-      label: 'Vote Incentive Splits',
+      label: 'Incentive Splits',
       isPct: true,
       decimals: 1,
     },
@@ -178,9 +178,10 @@ const fieldConfig = {
       '',
       'start_time',
       'start_block',
-      'global_weight_data',
       'system_avg_boost',
-      '',
+      'global_weight_data',
+      
+      'yvyCRV',
       'strategy_boost',
       'strategy_weight_data',
     ],
@@ -190,7 +191,7 @@ const fieldConfig = {
       start_block: { visible: false, decimals: 0, label: 'Start Block' },
       global_weight_data: {
         visible: true,
-        label: 'Global Weight | Staked',
+        label: 'Weight | Staked',
         group: [
           { key: 'global_weight', decimals: 0, isUSD: false },
           { key: 'global_balance', decimals: 0, isUSD: false },
@@ -202,20 +203,20 @@ const fieldConfig = {
       strategy_boost: {
         visible: true,
         decimals: 4,
-        label: 'Strategy Boost',
+        label: 'Boost',
         isMultiplier: true,
       },
       system_avg_boost: {
         visible: true,
         decimals: 4,
-        label: 'Global Avg Boost',
+        label: 'Avg Boost',
         isMultiplier: true,
       },
       strategy_weight: { visible: true, decimals: 0, label: 'yvyCRV Weight' },
       strategy_balance: { visible: true, decimals: 0, label: 'yvyCRV Staked' },
       strategy_weight_data: {
         visible: true,
-        label: 'yvyCRV Weight | Staked',
+        label: 'Weight | Staked',
         group: [
           { key: 'strategy_weight', decimals: 0, isUSD: false },
           { key: 'strategy_balance', decimals: 0, isUSD: false },

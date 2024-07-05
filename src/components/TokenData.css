@@ -10,7 +10,7 @@
 }
 
 .data-label {
-  flex: 0 0 200px;
+  flex: 0 0 150px;
   font-weight: 700;
 }
 
@@ -237,7 +237,6 @@ body,
 }
 
 .burner-balance {
-  font-weight: 700;
   margin-right: 10px;
 }
 
@@ -247,16 +246,6 @@ body,
 }
 
 @media (max-width: 768px) {
-  .burner-balance-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .burner-balance,
-  .burner-token {
-    flex: 1 0 100%;
-    margin-bottom: 4px; /* Space between elements for mobile */
-  }
 
   .token-header {
     display: flex;
