@@ -181,20 +181,20 @@ const fieldConfig = {
       'system_avg_boost',
       'global_weight_data',
       
-      'yvyCRV',
+      'Auto-compounder',
       'strategy_boost',
       'strategy_weight_data',
     ],
-    ybs: { visible: true, label: 'ybs' },
+    ybs: { visible: true, label: 'YBS' },
     weekly_data: {
       start_time: { visible: true, label: 'Week Start', isTimestamp: true },
       start_block: { visible: false, decimals: 0, label: 'Start Block' },
       global_weight_data: {
         visible: true,
-        label: 'Weight | Staked',
+        label: 'Staked | Weight',
         group: [
-          { key: 'global_weight', decimals: 0, isUSD: false },
           { key: 'global_balance', decimals: 0, isUSD: false },
+          { key: 'global_weight', decimals: 0, isUSD: false },
         ],
         separator: ' | ',
       },
@@ -216,10 +216,10 @@ const fieldConfig = {
       strategy_balance: { visible: true, decimals: 0, label: 'yvyCRV Staked' },
       strategy_weight_data: {
         visible: true,
-        label: 'Weight | Staked',
+        label: 'Staked | Weight',
         group: [
-          { key: 'strategy_weight', decimals: 0, isUSD: false },
           { key: 'strategy_balance', decimals: 0, isUSD: false },
+          { key: 'strategy_weight', decimals: 0, isUSD: false },
         ],
         separator: ' | ',
       },
