@@ -198,7 +198,7 @@ const fieldConfig = {
         separator: ' | ',
       },
       global_weight: { visible: false, decimals: 0, label: 'Global Weight' },
-      global_balance: { visible: false, decimals: 0, label: 'Global Balance' },
+      global_balance: { visible: false, decimals: 0, label: 'Global Staked' },
       strategy_boost: {
         visible: true,
         decimals: 4,
@@ -211,11 +211,11 @@ const fieldConfig = {
         label: 'Global Avg Boost',
         isMultiplier: true,
       },
-      strategy_weight: { visible: true, decimals: 0, label: 'Strategy Weight' },
-      strategy_balance: { visible: true, decimals: 0, label: 'Strategy Balance' },
+      strategy_weight: { visible: true, decimals: 0, label: 'yvyCRV Weight' },
+      strategy_balance: { visible: true, decimals: 0, label: 'yvyCRV Staked' },
       strategy_weight_data: {
         visible: true,
-        label: 'Strategy Weight | Balance',
+        label: 'yvyCRV Weight | Balance',
         group: [
           { key: 'strategy_weight', decimals: 0, isUSD: false },
           { key: 'strategy_balance', decimals: 0, isUSD: false },
