@@ -239,8 +239,9 @@ const TokenData = ({ token, data, tokens, setToken }) => {
             formattedValue = renderValueWithCopyButton(value);
 
           if (Array.isArray(value)) {
+            const d = config.decimals === null ? 2 : config.decimals;
             formattedValue = value
-              .map((v) => `${(v * 100).toFixed(2)}%`)
+              .map((v) => `${(v * 100).toFixed(d)}%`)
               .join(' | ');
           }
 
@@ -356,8 +357,9 @@ const TokenData = ({ token, data, tokens, setToken }) => {
           let formattedValue = formatValue(value, config);
 
           if (Array.isArray(value) && config.isPct) {
+            const d = config.decimals === null ? 2 : config.decimals;
             formattedValue = value
-              .map((v) => `${(v * 100).toFixed(2)}%`)
+              .map((v) => `${(v * 100).toFixed(d)}%`)
               .join(' | ');
           }
 

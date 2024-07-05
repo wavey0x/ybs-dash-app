@@ -26,10 +26,20 @@ export const isValidUrl = (url) => {
 
 export const formatValue = (value, config) => {
   if (typeof value === 'number') {
-    let formattedNumber = Number(value).toLocaleString(undefined, {
-      minimumFractionDigits: config.decimals,
-      maximumFractionDigits: config.decimals,
-    });
+    let formattedNumber;
+
+    // Abbreviate large numbers
+    if (value >= 1000000) {
+      formattedNumber = (value / 1000000).toFixed(3) + 'M';
+    } else if (value >= 100000) {
+      formattedNumber = (value / 1000).toFixed(0) + 'k';
+    } else {
+      formattedNumber = Number(value).toLocaleString(undefined, {
+        minimumFractionDigits: config.decimals,
+        maximumFractionDigits: config.decimals,
+      });
+    }
+
     if (config.isPct) {
       formattedNumber =
         (value * 100).toLocaleString(undefined, {
@@ -47,6 +57,7 @@ export const formatValue = (value, config) => {
   }
   return value;
 };
+
 
 export const getTokenLogo = (tokens, address) => {
   const tokenData = tokens[address];

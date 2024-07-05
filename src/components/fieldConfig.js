@@ -163,11 +163,13 @@ const fieldConfig = {
       visible: true,
       label: 'Admin Fee Splits',
       isPct: true,
+      decimals: 1,
     },
     split_ratio_vote_incentives: {
       visible: true,
       label: 'Vote Incentive Splits',
       isPct: true,
+      decimals: 1,
     },
   },
   ybs_data: {
