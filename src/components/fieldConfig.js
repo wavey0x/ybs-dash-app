@@ -176,20 +176,27 @@ const fieldConfig = {
       '',
       'start_time',
       'start_block',
-      'global_weight',
-      'global_balance',
+      'global_weight_data',
       'system_avg_boost',
       '',
       'strategy_boost',
-      'strategy_weight',
-      'strategy_balance',
+      'strategy_weight_data',
     ],
     ybs: { visible: true, label: 'ybs' },
     weekly_data: {
       start_time: { visible: true, label: 'Week Start', isTimestamp: true },
       start_block: { visible: false, decimals: 0, label: 'Start Block' },
-      global_weight: { visible: true, decimals: 0, label: 'Global Weight' },
-      global_balance: { visible: true, decimals: 0, label: 'Global Balance' },
+      global_weight_data: {
+        visible: true,
+        label: 'Global Weight | Balance',
+        group: [
+          { key: 'global_weight', decimals: 0, isUSD: false },
+          { key: 'global_balance', decimals: 0, isUSD: false },
+        ],
+        separator: ' | ',
+      },
+      global_weight: { visible: false, decimals: 0, label: 'Global Weight' },
+      global_balance: { visible: false, decimals: 0, label: 'Global Balance' },
       strategy_boost: {
         visible: true,
         decimals: 4,
@@ -203,11 +210,17 @@ const fieldConfig = {
         isMultiplier: true,
       },
       strategy_weight: { visible: true, decimals: 0, label: 'Strategy Weight' },
-      strategy_balance: {
+      strategy_balance: { visible: true, decimals: 0, label: 'Strategy Balance' },
+      strategy_weight_data: {
         visible: true,
-        decimals: 0,
-        label: 'Strategy Balance',
+        label: 'Strategy Weight | Balance',
+        group: [
+          { key: 'strategy_weight', decimals: 0, isUSD: false },
+          { key: 'strategy_balance', decimals: 0, isUSD: false },
+        ],
+        separator: ' | ',
       },
+      
     },
   },
 };

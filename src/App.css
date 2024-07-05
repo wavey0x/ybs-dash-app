@@ -24,6 +24,44 @@ h2 {
   padding-bottom: 5px;
 }
 
+/* Tabs container */
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+/* Individual tab button */
+.tabs button {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+.tabs button.active {
+  background: #f1f1f1;
+  border-bottom: 2px solid #848484;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Add a bit more shadow for the active tab */
+}
+
+.tabs button:hover {
+  background: #f9f9f9;
+}
+
+/* Adjusting for mobile view */
+@media (max-width: 768px) {
+  .tabs {
+    flex-direction: column;
+  }
+
+  .tabs button {
+    margin-bottom: 0.5rem;
+  }
+}
+
 .tabs {
   display: flex;
   margin-bottom: 15px;

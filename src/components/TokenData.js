@@ -17,8 +17,8 @@ const CopyIcon = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M10 1H1V10" stroke="currentColor" strokeWidth="1" />
-    <path d="M4 4H13V13H4V4Z" stroke="currentColor" strokeWidth="1" />
+    <path d="M10 1H1V10" stroke="gray" strokeWidth="1" />
+    <path d="M4 4H13V13H4V4Z" stroke="gray" strokeWidth="1" />
   </svg>
 );
 
@@ -73,22 +73,22 @@ const TokenData = ({ token, data, tokens, setToken }) => {
     if (!ybsData) {
       return <div>No YBS data available</div>;
     }
-
+  
     const weeklyData = ybsData.weekly_data;
     const weekIndices = weeklyData
       ? Object.keys(weeklyData)
           .map(Number)
           .sort((a, b) => b - a)
       : [];
-
+  
     if (weekIndices.length === 0 && !ybsData.ybs) {
       return <div>No weekly data available</div>;
     }
-
+  
     const currentWeekData =
       activeWeekIndex !== null ? weeklyData[activeWeekIndex] : {};
     const orderedFields = fieldConfig.ybs_data.order;
-
+  
     const changeWeek = (direction) => {
       const currentIndex = weekIndices.indexOf(activeWeekIndex);
       const newIndex =
@@ -97,16 +97,14 @@ const TokenData = ({ token, data, tokens, setToken }) => {
         setActiveWeekIndex(weekIndices[newIndex]);
       }
     };
-
+  
     return (
       <div className="ybs-data-container">
         {weekIndices.length > 0 && (
           <div className="week-selector">
             <button
               onClick={() => changeWeek('prev')}
-              disabled={
-                weekIndices.indexOf(activeWeekIndex) === weekIndices.length - 1
-              }
+              disabled={weekIndices.indexOf(activeWeekIndex) === weekIndices.length - 1}
             >
               &lt;
             </button>
@@ -122,9 +120,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
         <div className="ybs-data">
           {orderedFields.map((key, index) => {
             if (key === 'order') return null; // Skip the order key
-            const config =
-              fieldConfig?.ybs_data?.[key] ||
-              fieldConfig?.ybs_data?.weekly_data?.[key];
+            const config = fieldConfig?.ybs_data?.[key] || fieldConfig?.ybs_data?.weekly_data?.[key];
             if (!config) {
               // Render separator
               return (
@@ -135,17 +131,28 @@ const TokenData = ({ token, data, tokens, setToken }) => {
               );
             }
             if (!config.visible) return null;
-
-            const value = key === 'ybs' ? ybsData[key] : currentWeekData?.[key];
-            if (value === undefined) return null; // Skip rendering if value is undefined
-
+  
+            const value = config.group ? null : (key === 'ybs' ? ybsData[key] : currentWeekData?.[key]);
+            if (value === undefined && !config.group) return null; // Skip rendering if value is undefined and it's not a group
+  
             let formattedValue = formatValue(value, config);
             if (isEthereumAddress(value))
               formattedValue = renderValueWithCopyButton(value);
             if (config.isTimestamp) {
               formattedValue = new Date(value * 1000).toLocaleDateString();
             }
-
+  
+            if (config.group) {
+              return (
+                <div key={key} className="data-row grouped-row">
+                  <div className="data-label">{config.label}:</div>
+                  <div className="data-value grouped-values">
+                    {renderGroupedFields(config, currentWeekData)}
+                  </div>
+                </div>
+              );
+            }
+  
             return (
               <div key={key} className="data-row">
                 <div className="data-label">{config.label}:</div>
@@ -157,6 +164,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
       </div>
     );
   };
+  
 
   const renderValueWithCopyButton = (value) => {
     return (
@@ -196,7 +204,6 @@ const TokenData = ({ token, data, tokens, setToken }) => {
                 })}
               </span>
               <span className="burner-token"> {symbol}</span>
-              {/* <span className="burner-address">{renderValueWithCopyButton(address)}</span> */}
             </div>
           )
         )}
@@ -209,13 +216,13 @@ const TokenData = ({ token, data, tokens, setToken }) => {
 
     return (
       <div className="data-container">
-        {orderedFields.map((key) => {
+        {orderedFields.map((key, index) => {
           if (key === 'order') return null; // Skip the order key
           const config = fieldConfig.pipeline_data[key];
           if (!config) {
             // Render separator
             return (
-              <div key={`separator-${key}`} className="data-separator">
+              <div key={`separator-${index}`} className="data-separator">
                 <span className="separator-text">{key}</span>
               </div>
             );
@@ -322,7 +329,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
           if (!config) {
             // Render separator
             return (
-              <div key={key} className="data-separator">
+              <div key={`separator-${key}`} className="data-separator">
                 <span className="separator-text">{key}</span>
                 <hr />
               </div>
