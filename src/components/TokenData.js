@@ -73,22 +73,22 @@ const TokenData = ({ token, data, tokens, setToken }) => {
     if (!ybsData) {
       return <div>No YBS data available</div>;
     }
-  
+
     const weeklyData = ybsData.weekly_data;
     const weekIndices = weeklyData
       ? Object.keys(weeklyData)
           .map(Number)
           .sort((a, b) => b - a)
       : [];
-  
+
     if (weekIndices.length === 0 && !ybsData.ybs) {
       return <div>No weekly data available</div>;
     }
-  
+
     const currentWeekData =
       activeWeekIndex !== null ? weeklyData[activeWeekIndex] : {};
     const orderedFields = fieldConfig.ybs_data.order;
-  
+
     const changeWeek = (direction) => {
       const currentIndex = weekIndices.indexOf(activeWeekIndex);
       const newIndex =
@@ -97,14 +97,16 @@ const TokenData = ({ token, data, tokens, setToken }) => {
         setActiveWeekIndex(weekIndices[newIndex]);
       }
     };
-  
+
     return (
       <div className="ybs-data-container">
         {weekIndices.length > 0 && (
           <div className="week-selector">
             <button
               onClick={() => changeWeek('prev')}
-              disabled={weekIndices.indexOf(activeWeekIndex) === weekIndices.length - 1}
+              disabled={
+                weekIndices.indexOf(activeWeekIndex) === weekIndices.length - 1
+              }
             >
               &lt;
             </button>
@@ -120,7 +122,9 @@ const TokenData = ({ token, data, tokens, setToken }) => {
         <div className="ybs-data">
           {orderedFields.map((key, index) => {
             if (key === 'order') return null; // Skip the order key
-            const config = fieldConfig?.ybs_data?.[key] || fieldConfig?.ybs_data?.weekly_data?.[key];
+            const config =
+              fieldConfig?.ybs_data?.[key] ||
+              fieldConfig?.ybs_data?.weekly_data?.[key];
             if (!config) {
               // Render separator
               return (
@@ -131,17 +135,21 @@ const TokenData = ({ token, data, tokens, setToken }) => {
               );
             }
             if (!config.visible) return null;
-  
-            const value = config.group ? null : (key === 'ybs' ? ybsData[key] : currentWeekData?.[key]);
+
+            const value = config.group
+              ? null
+              : key === 'ybs'
+                ? ybsData[key]
+                : currentWeekData?.[key];
             if (value === undefined && !config.group) return null; // Skip rendering if value is undefined and it's not a group
-  
+
             let formattedValue = formatValue(value, config);
             if (isEthereumAddress(value))
               formattedValue = renderValueWithCopyButton(value);
             if (config.isTimestamp) {
               formattedValue = new Date(value * 1000).toLocaleDateString();
             }
-  
+
             if (config.group) {
               return (
                 <div key={key} className="data-row grouped-row">
@@ -152,7 +160,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
                 </div>
               );
             }
-  
+
             return (
               <div key={key} className="data-row">
                 <div className="data-label">{config.label}:</div>
@@ -164,7 +172,6 @@ const TokenData = ({ token, data, tokens, setToken }) => {
       </div>
     );
   };
-  
 
   const renderValueWithCopyButton = (value) => {
     return (
@@ -194,19 +201,21 @@ const TokenData = ({ token, data, tokens, setToken }) => {
   const renderBurnerBalances = (burnerBalances) => {
     return (
       <div className="burner-balances-container">
-        {Object.entries(burnerBalances).map(
-          ([address, { symbol, balance }]) => (
-            <div key={address} className="burner-balance-row">
-              <span className="burner-balance">
-                {Number(balance).toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </span>
-              <span className="burner-token"> {symbol}</span>
-            </div>
-          )
-        )}
+        {Object.entries(burnerBalances).length == 0
+          ? 'n/a'
+          : Object.entries(burnerBalances).map(
+              ([address, { symbol, balance }]) => (
+                <div key={address} className="burner-balance-row">
+                  <span className="burner-balance">
+                    {Number(balance).toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </span>
+                  <span className="burner-token"> {symbol}</span>
+                </div>
+              )
+            )}
       </div>
     );
   };

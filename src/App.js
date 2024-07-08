@@ -175,7 +175,7 @@ function App() {
           options={tokenOptions}
           styles={customStyles}
           isSearchable={false}
-          inputProps={{readOnly:true}}
+          inputProps={{ readOnly: true }}
         />
       </div>
       <div className="main-content">

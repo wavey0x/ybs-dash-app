@@ -180,7 +180,7 @@ const fieldConfig = {
       'start_block',
       'system_avg_boost',
       'global_weight_data',
-      
+
       'Auto-compounder',
       'strategy_boost',
       'strategy_weight_data',
@@ -223,7 +223,6 @@ const fieldConfig = {
         ],
         separator: ' | ',
       },
-      
     },
   },
 };

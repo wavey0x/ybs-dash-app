@@ -58,7 +58,6 @@ export const formatValue = (value, config) => {
   return value;
 };
 
-
 export const getTokenLogo = (tokens, address) => {
   const tokenData = tokens[address];
   return tokenData?.logoURI && isValidUrl(tokenData.logoURI)
