@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './TokenData.css';
 import ErrorModal from './ErrorModal';
-import UserInfoModal from './UserInfoModal'; // Import the new UserInfoModal component
+import UserInfoModal from './UserInfoModal';
 import fieldConfig from './fieldConfig';
 import {
   isEthereumAddress,
@@ -451,12 +451,14 @@ const TokenData = ({ token, data, tokens, setToken }) => {
       
   };
 
+  // Determine if the Pipeline tab should be shown based on localStorage
+  const isAdmin = localStorage.getItem('admin') === 'admin';
   const tabs = [
     'ybs_data',
     'strategy_data',
     'peg_data',
     'price_data',
-    ...(Object.keys(data.pipeline_data || {}).length > 0
+    ...(isAdmin && Object.keys(data.pipeline_data || {}).length > 0
       ? ['pipeline_data']
       : []),
   ];
