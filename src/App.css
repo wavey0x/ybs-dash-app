@@ -107,7 +107,7 @@ h4 {
   font-size: 14px;
   margin-top: 10px;
   margin-bottom: 5px;
-  border-bottom: 1px dashed #000000;
+  /* border-bottom: 1px dashed #000000; */
 }
 
 @media (max-width: 768px) {
@@ -146,7 +146,7 @@ input[type='time'],
 input[type='color'],
 select,
 textarea {
-  font-size: 16px;
+  font-size: 12px;
 }
 
 /* Style the footer */

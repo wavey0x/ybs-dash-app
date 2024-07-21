@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './TokenData.css';
+import ErrorModal from './ErrorModal';
+import UserInfoModal from './UserInfoModal'; // Import the new UserInfoModal component
 import fieldConfig from './fieldConfig';
 import {
   isEthereumAddress,
@@ -38,9 +40,13 @@ const TokenData = ({ token, data, tokens, setToken }) => {
   const [activeTab, setActiveTab] = useState('ybs_data');
   const [copiedAddress, setCopiedAddress] = useState(null);
   const [activeWeekIndex, setActiveWeekIndex] = useState(null);
+  const [searchAddress, setSearchAddress] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+  const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    // Reset activeWeekIndex when token changes
     const weeklyData = data.ybs_data?.weekly_data;
     const weekIndices = weeklyData
       ? Object.keys(weeklyData)
@@ -53,6 +59,54 @@ const TokenData = ({ token, data, tokens, setToken }) => {
   useEffect(() => {
     setToken(token);
   }, [token, setToken]);
+
+  const handleSearchSubmit = async (event) => {
+    if (event && event.key && event.key !== 'Enter') return;
+    try {
+      const weekId = activeWeekIndex;
+      console.log(process.env.REACT_APP_API);
+      const response = await fetch(
+        `${process.env.REACT_APP_API}/user_info?account=${searchAddress}&week_id=${weekId}`
+      );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await response.json();
+      if (result && result.length > 0) {
+        setUserInfo(result[0]);
+        setModalIsOpen(true);
+      } else {
+        setErrorMessage('No data found for the provided address and week.');
+        setErrorModalIsOpen(true);
+      }
+    } catch (err) {
+      console.error('Error fetching user info:', err);
+      setErrorMessage('An error occurred while fetching the data.');
+      setErrorModalIsOpen(true);
+    }
+  };
+
+  const handleWeekChange = async (account, newWeekId) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/user_info?account=${account}&week_id=${newWeekId}`
+      );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await response.json();
+      if (result && result.length > 0) {
+        setUserInfo(result[0]);
+      } else {
+        setErrorMessage('No data found for the provided week.');
+        setErrorModalIsOpen(true);
+      }
+    } catch (err) {
+      console.error('Error fetching user info:', err);
+      setErrorMessage('An error occurred while fetching the data.');
+      setErrorModalIsOpen(true);
+    }
+  };
 
   const renderGroupedFields = (groupConfig, obj) => {
     return groupConfig.group.map((field, index) => {
@@ -139,8 +193,8 @@ const TokenData = ({ token, data, tokens, setToken }) => {
             const value = config.group
               ? null
               : key === 'ybs'
-                ? ybsData[key]
-                : currentWeekData?.[key];
+              ? ybsData[key]
+              : currentWeekData?.[key];
             if (value === undefined && !config.group) return null; // Skip rendering if value is undefined and it's not a group
 
             let formattedValue = formatValue(value, config);
@@ -201,7 +255,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
   const renderBurnerBalances = (burnerBalances) => {
     return (
       <div className="burner-balances-container">
-        {Object.entries(burnerBalances).length == 0
+        {Object.entries(burnerBalances).length === 0
           ? 'n/a'
           : Object.entries(burnerBalances).map(
               ([address, { symbol, balance }]) => (
@@ -331,69 +385,70 @@ const TokenData = ({ token, data, tokens, setToken }) => {
     const orderedFields =
       fieldConfig[section]?.order || Object.keys(fieldConfig[section]);
 
-    return (
-      <div className="data-container">
-        {orderedFields.map((key) => {
-          if (key === 'order') return null; // Skip the order key
-          const config = fieldConfig[section][key];
-          if (!config) {
-            // Render separator
+      return (
+        <div className="data-container">
+          {orderedFields.map((key) => {
+            if (key === 'order') return null; // Skip the order key
+            const config = fieldConfig[section][key];
+            if (!config) {
+              // Render separator
+              return (
+                <div key={`separator-${key}`} className="data-separator">
+                  <span className="separator-text">{key}</span>
+                  <hr />
+                </div>
+              );
+            }
+            if (!config.visible) return null;
+      
+            const label =
+              config.label ||
+              key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+      
+            if (config.group) {
+              return (
+                <div key={key} className="data-row grouped-row">
+                  <div className="data-label">{label}:</div>
+                  <div className="data-value grouped-values">
+                    {renderGroupedFields(config, obj)}
+                  </div>
+                </div>
+              );
+            }
+      
+            const value = obj[key];
+            let formattedValue = formatValue(value, config);
+      
+            if (Array.isArray(value) && config.isPct) {
+              const d = config.decimals === null ? 2 : config.decimals;
+              formattedValue = value
+                .map((v) => `${(v * 100).toFixed(d)}%`)
+                .join(' | ');
+            }
+      
+            if (typeof value === 'object' && value !== null) {
+              return (
+                <React.Fragment key={key}>
+                  <div className="data-label">{label}</div>
+                  <div className="data-value">{renderData(value, key)}</div>
+                </React.Fragment>
+              );
+            }
+      
             return (
-              <div key={`separator-${key}`} className="data-separator">
-                <span className="separator-text">{key}</span>
-                <hr />
-              </div>
-            );
-          }
-          if (!config.visible) return null;
-
-          const label =
-            config.label ||
-            key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
-
-          if (config.group) {
-            return (
-              <div key={key} className="data-row grouped-row">
+              <div key={key} className="data-row">
                 <div className="data-label">{label}:</div>
-                <div className="data-value grouped-values">
-                  {renderGroupedFields(config, obj)}
+                <div className="data-value">
+                  {isEthereumAddress(value)
+                    ? renderValueWithCopyButton(value)
+                    : formattedValue}
                 </div>
               </div>
             );
-          }
-
-          const value = obj[key];
-          let formattedValue = formatValue(value, config);
-
-          if (Array.isArray(value) && config.isPct) {
-            const d = config.decimals === null ? 2 : config.decimals;
-            formattedValue = value
-              .map((v) => `${(v * 100).toFixed(d)}%`)
-              .join(' | ');
-          }
-
-          if (typeof value === 'object' && value !== null) {
-            return (
-              <React.Fragment key={key}>
-                <div className="data-label">{label}</div>
-                <div className="data-value">{renderData(value, key)}</div>
-              </React.Fragment>
-            );
-          }
-
-          return (
-            <div key={key} className="data-row">
-              <div className="data-label">{label}:</div>
-              <div className="data-value">
-                {isEthereumAddress(value)
-                  ? renderValueWithCopyButton(value)
-                  : formattedValue}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    );
+          })}
+        </div>
+      );
+      
   };
 
   const tabs = [
@@ -433,6 +488,36 @@ const TokenData = ({ token, data, tokens, setToken }) => {
       <div className="tab-content">
         {renderData(data[activeTab] || {}, activeTab)}
       </div>
+      <div className="search-container">
+        <div className="search-input-wrapper">
+          <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input
+            type="text"
+            placeholder="Input user address..."
+            value={searchAddress}
+            onChange={(e) => setSearchAddress(e.target.value)}
+            onKeyPress={(e) => handleSearchSubmit(e)}
+            className="minimalist-input"
+          />
+          <button className="search-button" onClick={handleSearchSubmit}>
+            &gt;
+          </button>
+        </div>
+      </div>
+      <UserInfoModal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        userInfo={userInfo}
+        onWeekChange={handleWeekChange}
+      />
+      <ErrorModal
+        isOpen={errorModalIsOpen}
+        onRequestClose={() => setErrorModalIsOpen(false)}
+        errorMessage={errorMessage}
+      />
     </div>
   );
 };

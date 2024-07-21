@@ -288,3 +288,117 @@ body,
     width: 250px; /* Set fixed width for better alignment */
   }
 }
+
+/* Add this CSS to your TokenData.css or a similar stylesheet */
+
+/* Add this CSS to your TokenData.css or a similar stylesheet */
+.search-container {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.minimalist-input {
+  width: 100%;
+  padding: 8px 8px 8px 32px; /* Adjust padding for the search icon */
+  border: none;
+  border-bottom: 1px solid #000;
+  background-color: transparent;
+  color: #666; /* Lighter gray font color */
+  font-size: 12px; /* Set font size to 12px */
+  font-family: monospace; /* Use monospace font */
+  outline: none;
+  box-sizing: border-box;
+}
+
+.minimalist-input::placeholder {
+  color: #aaa; /* Even lighter gray for placeholder text */
+}
+
+.search-icon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px; /* Adjust the size as needed */
+  height: 16px; /* Adjust the size as needed */
+}
+
+.search-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 18px;
+  padding: 0 8px;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ReactModal__Content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -0%;
+  transform: translate(-50%, -50%);
+  width: 370px;
+  background: #fff;
+  border-radius: 4px;
+  padding: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ReactModal__Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-close-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.week-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.week-selector button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.week-selector button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
