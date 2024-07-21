@@ -89,7 +89,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
   const handleWeekChange = async (account, newWeekId) => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/user_info?account=${account}&week_id=${newWeekId}`
+        `${process.env.REACT_APP_API}/user_info?account=${account}&week_id=${newWeekId}`
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
