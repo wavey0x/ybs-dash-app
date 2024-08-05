@@ -66,7 +66,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
       const weekId = activeWeekIndex;
       console.log(process.env.REACT_APP_API);
       const response = await fetch(
-        `${process.env.REACT_APP_API}/ybs/user_info?account=${searchAddress}&week_id=${weekId}&ybs=${token}`
+        `${process.env.REACT_APP_API}/ybs/user_info?account=${searchAddress}&week_id=${weekId}&token=${token}`
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -89,7 +89,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
   const handleWeekChange = async (account, newWeekId) => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API}/ybs/user_info?account=${account}&week_id=${newWeekId}&ybs=${token}`
+        `${process.env.REACT_APP_API}/ybs/user_info?account=${account}&week_id=${newWeekId}&token=${token}`
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
