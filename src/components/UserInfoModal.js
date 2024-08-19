@@ -40,6 +40,7 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo, onWeekChange }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
+      ariaHideApp={false}
       contentLabel="User Info"
       className="ReactModal__Content"
       overlayClassName="ReactModal__Overlay"
@@ -62,9 +63,9 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo, onWeekChange }) => {
           <p>
         {formatDateRange(userInfo.start_ts)}
           </p>
-          <p>Balance: {Number(userInfo.user_balance).toLocaleString(2)}</p>
-          <p>Weight: {Number(userInfo.user_weight).toLocaleString(2)}</p>
-          <p>Boost: {Number(userInfo.user_boost).toLocaleString(4)}x</p>
+          <p>Balance: {Number(userInfo.balance).toLocaleString(2)}</p>
+          <p>Weight: {Number(userInfo.weight).toLocaleString(2)}</p>
+          <p>Boost: {Number(userInfo.boost).toLocaleString(4)}x</p>
           <WeekBlocks userInfo={userInfo} />
         </div>
       )}

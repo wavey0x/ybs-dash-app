@@ -16,11 +16,11 @@ const WeekBlocks = ({ userInfo }) => {
       month: '2-digit',
       day: '2-digit',
     });
-    const balance = Number(userInfo.user_stake_map[weekId]?.amount || 0).toLocaleString(undefined, {
+    const balance = Number(userInfo.stake_map[weekId]?.amount || 0).toLocaleString(undefined, {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     });
-    const realized = Number(userInfo.user_stake_map?.realized || 0).toLocaleString(undefined, {
+    const realized = Number(userInfo.stake_map?.realized || 0).toLocaleString(undefined, {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     });

@@ -64,9 +64,33 @@ const TokenData = ({ token, data, tokens, setToken }) => {
     if (event && event.key && event.key !== 'Enter') return;
     try {
       const weekId = activeWeekIndex;
-      console.log(process.env.REACT_APP_API);
       const response = await fetch(
         `${process.env.REACT_APP_API}/ybs/user_info?account=${searchAddress}&week_id=${weekId}&token=${token}`
+      );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await response.json();
+      if (result && result.length > 0) {
+        setUserInfo(result[0]);
+        setModalIsOpen(true);
+      } else {
+        setErrorMessage('No data found for the provided address and week.');
+        setErrorModalIsOpen(true);
+      }
+    } catch (err) {
+      console.error('Error fetching user info:', err);
+      setErrorMessage('An error occurred while fetching the data.');
+      setErrorModalIsOpen(true);
+    }
+  };
+
+  const handleGlobalMapClick = async (event) => {
+    if (event && event.key && event.key !== 'Enter') return;
+    try {
+      const weekId = activeWeekIndex;
+      const response = await fetch(
+        `${process.env.REACT_APP_API}/ybs/global_info?week_id=${weekId}&token=${token}`
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -111,13 +135,22 @@ const TokenData = ({ token, data, tokens, setToken }) => {
   const renderGroupedFields = (groupConfig, obj) => {
     return groupConfig.group.map((field, index) => {
       const value = obj[field.key];
-      const formattedValue = formatValue(value, field);
+      var formattedValue = '🗺️' 
+      if(field.key !== 'icon'){
+        formattedValue = formatValue(value, field);
+      }
       return (
         <React.Fragment key={field.key}>
           {index > 0 && (
             <span className="grouped-separator">{groupConfig.separator}</span>
           )}
-          <span className="grouped-value">{formattedValue}</span>
+          <span
+            className="grouped-value"
+            onClick={field.key === 'icon' ? handleGlobalMapClick : null}
+            style={field.key === 'icon' ? { cursor: 'pointer' } : {}}
+          >
+            {formattedValue}
+          </span>
         </React.Fragment>
       );
     });
@@ -176,6 +209,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
         <div className="ybs-data">
           {orderedFields.map((key, index) => {
             if (key === 'order') return null; // Skip the order key
+            if (key === 'map') return <div>hello</div>
             const config =
               fieldConfig?.ybs_data?.[key] ||
               fieldConfig?.ybs_data?.weekly_data?.[key];
@@ -190,8 +224,6 @@ const TokenData = ({ token, data, tokens, setToken }) => {
             }
             if (!config.visible) return null;
 
-            console.log(ybsData)
-            // console.log(key)
             const value = config.group
               ? null
               : (key === 'ybs' || key === 'rewards' || key === 'utils')

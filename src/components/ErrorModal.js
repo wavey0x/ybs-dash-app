@@ -9,6 +9,7 @@ const ErrorModal = ({ isOpen, onRequestClose, errorMessage }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
+      ariaHideApp={false}
       shouldCloseOnOverlayClick={true}
       className="error-modal-content"
       overlayClassName="error-modal-overlay"

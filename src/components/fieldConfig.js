@@ -182,6 +182,7 @@ const fieldConfig = {
       'start_block',
       'system_avg_boost',
       'global_weight_data',
+      'map',
       'Auto-compounder',
       'strategy_boost',
       'strategy_weight_data',
@@ -189,6 +190,7 @@ const fieldConfig = {
     ybs: { visible: true, label: 'YBS' },
     rewards: { visible: true, label: 'Rewards' },
     utils: { visible: true, label: 'Utils' },
+    map: { visible: true, label: 'Stake Map' },
     weekly_data: {
       start_time: { visible: true, label: 'Week Start', isTimestamp: true },
       start_block: { visible: false, decimals: 0, label: 'Start Block' },
@@ -198,6 +200,7 @@ const fieldConfig = {
         group: [
           { key: 'global_balance', decimals: 0, isUSD: false },
           { key: 'global_weight', decimals: 0, isUSD: false },
+          { key: 'icon', decimals: 0, isUSD: false },
         ],
         separator: ' | ',
       },
