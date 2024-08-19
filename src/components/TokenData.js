@@ -209,7 +209,6 @@ const TokenData = ({ token, data, tokens, setToken }) => {
         <div className="ybs-data">
           {orderedFields.map((key, index) => {
             if (key === 'order') return null; // Skip the order key
-            if (key === 'map') return <div>hello</div>
             const config =
               fieldConfig?.ybs_data?.[key] ||
               fieldConfig?.ybs_data?.weekly_data?.[key];
