@@ -175,6 +175,8 @@ const fieldConfig = {
   ybs_data: {
     order: [
       'ybs',
+      'rewards',
+      'utils',
       '',
       'start_time',
       'start_block',
@@ -186,6 +188,8 @@ const fieldConfig = {
       'strategy_weight_data',
     ],
     ybs: { visible: true, label: 'YBS' },
+    rewards: { visible: true, label: 'Rewards' },
+    utils: { visible: true, label: 'Utils' },
     weekly_data: {
       start_time: { visible: true, label: 'Week Start', isTimestamp: true },
       start_block: { visible: false, decimals: 0, label: 'Start Block' },
