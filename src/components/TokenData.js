@@ -190,11 +190,14 @@ const TokenData = ({ token, data, tokens, setToken }) => {
             }
             if (!config.visible) return null;
 
+            console.log(ybsData)
+            // console.log(key)
             const value = config.group
               ? null
-              : key === 'ybs'
+              : (key === 'ybs' || key === 'rewards' || key === 'utils')
               ? ybsData[key]
               : currentWeekData?.[key];
+            
             if (value === undefined && !config.group) return null; // Skip rendering if value is undefined and it's not a group
 
             let formattedValue = formatValue(value, config);
