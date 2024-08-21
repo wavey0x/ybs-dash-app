@@ -1,5 +1,5 @@
 import React from 'react';
-import './WeekBlocks.css';  // Make sure to import the CSS for styling
+import './WeekBlocks.css'; // Make sure to import the CSS for styling
 
 const WeekBlocks = ({ userInfo }) => {
   const currentWeek = userInfo.week_id;
@@ -7,7 +7,7 @@ const WeekBlocks = ({ userInfo }) => {
   const blockWidth = 60;
   const blockHeight = 50;
   const startTimestamp = userInfo.start_ts;
-  const blockGap = 5;  // Reduced the gap between blocks
+  const blockGap = 5; // Reduced the gap between blocks
 
   for (let i = 0; i < 5; i++) {
     const weekId = currentWeek + i;
@@ -16,14 +16,19 @@ const WeekBlocks = ({ userInfo }) => {
       month: '2-digit',
       day: '2-digit',
     });
-    const balance = Number(userInfo.stake_map[weekId]?.amount || 0).toLocaleString(undefined, {
+    const balance = Number(
+      userInfo.stake_map[weekId]?.amount || 0
+    ).toLocaleString(undefined, {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     });
-    const realized = Number(userInfo.stake_map?.realized || 0).toLocaleString(undefined, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    });
+    const realized = Number(userInfo.stake_map?.realized || 0).toLocaleString(
+      undefined,
+      {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }
+    );
 
     // Calculate multiplier
     const multiplier = (5 - i) * 0.5;
@@ -50,17 +55,17 @@ const WeekBlocks = ({ userInfo }) => {
         </text>
         <text
           x={i * (blockWidth + blockGap) + blockWidth / 2}
-          y={blockHeight + 10}  // Adjust y position for multiplier
+          y={blockHeight + 10} // Adjust y position for multiplier
           textAnchor="middle"
           fontSize="8"
           fill="black"
-          fontWeight="bold"  // Bold styling for multiplier
+          fontWeight="bold" // Bold styling for multiplier
         >
           {multiplier}x
         </text>
         <text
           x={i * (blockWidth + blockGap) + blockWidth / 2}
-          y={blockHeight + 20}  // Adjust y position for date
+          y={blockHeight + 20} // Adjust y position for date
           textAnchor="middle"
           fontSize="8"
           fill="black"
@@ -71,7 +76,11 @@ const WeekBlocks = ({ userInfo }) => {
     );
   }
 
-  return <svg width="100%" height="80">{weekBlocks}</svg>;
+  return (
+    <svg width="100%" height="80">
+      {weekBlocks}
+    </svg>
+  );
 };
 
 export default WeekBlocks;

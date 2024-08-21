@@ -1,9 +1,9 @@
 /* Special styling for the realized value block */
 .special-block rect {
-    stroke: gold;
-    stroke-width: 2;
+  stroke: gold;
+  stroke-width: 2;
 }
 
 .special-block text {
-    font-weight: bold;
+  font-weight: bold;
 }

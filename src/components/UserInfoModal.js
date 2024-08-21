@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import WeekBlocks from './WeekBlocks';
 
-const UserInfoModal = ({ isOpen, onRequestClose, userInfo, onWeekChange }) => {
+const UserInfoModal = ({
+  isOpen,
+  onRequestClose,
+  userInfo,
+  onWeekChange,
+  isGlobal,
+}) => {
   const [currentWeekId, setCurrentWeekId] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -13,10 +19,18 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo, onWeekChange }) => {
   }, [userInfo]);
 
   const changeWeek = async (direction) => {
-    const newWeekId = direction === 'prev' ? currentWeekId - 1 : currentWeekId + 1;
+    const newWeekId =
+      direction === 'prev' ? currentWeekId - 1 : currentWeekId + 1;
     setCurrentWeekId(newWeekId);
     setLoading(true);
-    await onWeekChange(userInfo.account, newWeekId);
+
+    const endpoint = isGlobal ? 'global_info' : 'user_info';
+    const params = isGlobal
+      ? { week_id: newWeekId }
+      : { account: userInfo.account, week_id: newWeekId };
+
+    await onWeekChange({ endpoint, params });
+
     setLoading(false);
   };
 
@@ -51,7 +65,12 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo, onWeekChange }) => {
         </button>
       </div>
       <div className="week-selector">
-        <button onClick={() => changeWeek('prev')} disabled={currentWeekId === 0}>{'<'}</button>
+        <button
+          onClick={() => changeWeek('prev')}
+          disabled={currentWeekId === 0}
+        >
+          {'<'}
+        </button>
         <span>Week {currentWeekId}</span>
         <button onClick={() => changeWeek('next')}>{'>'}</button>
       </div>
@@ -60,9 +79,7 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo, onWeekChange }) => {
       ) : (
         <div>
           <h4>{userInfo.account}</h4>
-          <p>
-        {formatDateRange(userInfo.start_ts)}
-          </p>
+          <p>{formatDateRange(userInfo.start_ts)}</p>
           <p>Balance: {Number(userInfo.balance).toLocaleString(2)}</p>
           <p>Weight: {Number(userInfo.weight).toLocaleString(2)}</p>
           <p>Boost: {Number(userInfo.boost).toLocaleString(4)}x</p>

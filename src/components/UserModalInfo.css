@@ -1,26 +1,26 @@
 /* Special styling for the realized value block */
-  
+
 .ReactModal__Overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.75);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .ReactModal__Content {
-    position: relative;
-    background: #fff;
-    padding: 20px;
-    border-radius: 4px;
-    max-width: 370px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    outline: none;
+  position: relative;
+  background: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  max-width: 370px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  outline: none;
 }
