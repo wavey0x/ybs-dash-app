@@ -84,7 +84,7 @@ const TokenData = ({ token, data, tokens, setToken }) => {
     try {
       const queryString = new URLSearchParams(params).toString();
       const response = await fetch(
-        `${process.env.REACT_APP_API}/ybs/${endpoint}?${queryString}&token=${token}`
+        `${process.env.REACT_APP_API}/api/ybs/${endpoint}?${queryString}&token=${token}`
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
