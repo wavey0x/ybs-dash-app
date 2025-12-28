@@ -1,15 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import TokenData from './components/TokenData';
 import './App.css';
 
+const STORAGE_KEY = 'lastViewedToken';
+
 function App() {
+  const { token: urlToken } = useParams();
+  const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [selectedToken, setSelectedToken] = useState(null);
   const [error, setError] = useState(null);
   const [timeLeft, setTimeLeft] = useState(getTimeLeftUntilThursday());
   const [lastUpdate, setLastUpdate] = useState(null);
 
+  // Build tokens map from data (memoized)
+  const tokens = useMemo(() => {
+    if (!data) return {};
+    return Object.keys(data).reduce((acc, key) => {
+      acc[key] = {
+        symbol: data[key]['price_data']?.[key]?.symbol,
+        logoURI: data[key]['price_data']?.[key]?.logoURI,
+      };
+      return acc;
+    }, {});
+  }, [data]);
+
+  // Helper: Find address by symbol (case-insensitive)
+  const getAddressBySymbol = useCallback((symbol) => {
+    if (!symbol || !tokens || Object.keys(tokens).length === 0) return null;
+    const lowerSymbol = symbol.toLowerCase();
+    return Object.entries(tokens).find(
+      ([, tokenData]) => tokenData.symbol?.toLowerCase() === lowerSymbol
+    )?.[0];
+  }, [tokens]);
+
+  // Helper: Get symbol by address
+  const getSymbolByAddress = useCallback((address) => {
+    return tokens?.[address]?.symbol?.toLowerCase();
+  }, [tokens]);
+
+  // Get default token address (first available token)
+  const getDefaultAddress = useCallback(() => {
+    const addresses = Object.keys(tokens);
+    return addresses.length > 0 ? addresses[0] : null;
+  }, [tokens]);
+
+  // Fetch data once on mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -18,28 +56,57 @@ function App() {
           throw new Error('Network response was not ok');
         }
         const result = await response.json();
-        const data = result.data;
-        const lastUpdate = result.last_update;
+        const fetchedData = result.data;
 
-        if (Object.keys(data).length === 0) {
+        if (Object.keys(fetchedData).length === 0) {
           throw new Error('No data available from the API');
         }
 
-        setData(data);
-        setSelectedToken(defaultToken);
-        setLastUpdate(lastUpdate);
+        setData(fetchedData);
+        setLastUpdate(result.last_update);
       } catch (err) {
         console.error('Error parsing data:', err);
-        setError(
-          'Error loading data. Please check the console for more information.'
-        );
+        setError('Error loading data. Please check the console for more information.');
       }
     };
 
     fetchData();
-  }, []);
+  }, []); // Only run once on mount
 
-  const defaultToken = '0xFCc5c47bE19d06BF83eB04298b026F81069ff65b'; // Set the default token here
+  // Handle URL sync after data is loaded
+  useEffect(() => {
+    if (!data || Object.keys(tokens).length === 0) return;
+
+    // Try to resolve URL symbol to address
+    const resolvedAddress = urlToken ? getAddressBySymbol(urlToken) : null;
+
+    if (resolvedAddress) {
+      // Valid symbol in URL
+      setSelectedToken(resolvedAddress);
+      localStorage.setItem(STORAGE_KEY, urlToken.toLowerCase());
+    } else {
+      // Invalid or missing symbol - check localStorage or use first available token
+      const lastViewed = localStorage.getItem(STORAGE_KEY);
+      const fallbackAddress = lastViewed ? getAddressBySymbol(lastViewed) : null;
+      const finalAddress = fallbackAddress || getDefaultAddress();
+      const finalSymbol = getSymbolByAddress(finalAddress);
+
+      if (finalAddress && finalSymbol) {
+        setSelectedToken(finalAddress);
+        navigate(`/${finalSymbol}`, { replace: true });
+      }
+    }
+  }, [data, tokens, urlToken, navigate, getAddressBySymbol, getSymbolByAddress, getDefaultAddress]);
+
+  // Handle token selection change - update URL with symbol
+  const handleTokenChange = useCallback((tokenAddress) => {
+    const symbol = getSymbolByAddress(tokenAddress);
+    if (symbol) {
+      localStorage.setItem(STORAGE_KEY, symbol);
+      setSelectedToken(tokenAddress);
+      navigate(`/${symbol}`);
+    }
+  }, [getSymbolByAddress, navigate]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -96,14 +163,6 @@ function App() {
 
   if (error) return <div className="error">{error}</div>;
   if (!data) return <div>Loading...</div>;
-
-  const tokens = Object.keys(data).reduce((acc, key) => {
-    acc[key] = {
-      symbol: data[key]['price_data'][key]?.symbol,
-      logoURI: data[key]['price_data'][key]?.logoURI,
-    };
-    return acc;
-  }, {});
 
   const tokenOptions = Object.entries(tokens).map(([address, tokenData]) => ({
     value: address,
@@ -171,7 +230,7 @@ function App() {
         <Select
           id="token-select"
           value={tokenOptions.find((option) => option.value === selectedToken)}
-          onChange={(option) => setSelectedToken(option.value)}
+          onChange={(option) => handleTokenChange(option.value)}
           options={tokenOptions}
           styles={customStyles}
           isSearchable={false}
@@ -185,7 +244,7 @@ function App() {
             token={selectedToken}
             data={data[selectedToken]}
             tokens={tokens}
-            setToken={setSelectedToken}
+            setToken={handleTokenChange}
           />
         )}
       </div>

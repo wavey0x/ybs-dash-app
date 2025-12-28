@@ -354,9 +354,10 @@ const TokenData = ({ token, data, tokens, setToken }) => {
                         src={logoURI}
                         alt={symbol}
                         className="token-logo"
-                        onError={(e) =>
-                          e.target.replaceWith(GenericERC20Icon())
-                        }
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.parentNode.innerHTML = '<svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/></svg>';
+                        }}
                       />
                     ) : (
                       <GenericERC20Icon />

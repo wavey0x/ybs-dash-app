@@ -1,13 +1,11 @@
 import React from 'react';
-import './WeekBlocks.css'; // Make sure to import the CSS for styling
+import './WeekBlocks.css';
 
 const WeekBlocks = ({ userInfo }) => {
   const currentWeek = userInfo.week_id;
-  const weekBlocks = [];
-  const blockWidth = 60;
-  const blockHeight = 50;
   const startTimestamp = userInfo.start_ts;
-  const blockGap = 5; // Reduced the gap between blocks
+
+  const blocks = [];
 
   for (let i = 0; i < 5; i++) {
     const weekId = currentWeek + i;
@@ -30,56 +28,31 @@ const WeekBlocks = ({ userInfo }) => {
       }
     );
 
-    // Calculate multiplier
     const multiplier = (5 - i) * 0.5;
+    const displayValue = i === 0 ? realized : balance !== '0' ? balance : '';
 
-    weekBlocks.push(
-      <g key={weekId}>
-        <rect
-          x={i * (blockWidth + blockGap)}
-          y={0}
-          width={blockWidth}
-          height={blockHeight}
-          fill="none"
-          stroke={i === 0 ? 'gold' : balance ? 'black' : 'black'}
-          strokeWidth={i === 0 ? '2' : '1'}
-        />
-        <text
-          x={i * (blockWidth + blockGap) + blockWidth / 2}
-          y={blockHeight / 2 - 5}
-          textAnchor="middle"
-          fontSize="10"
-          fill="black"
-        >
-          {i === 0 ? realized : balance ? balance : ''}
-        </text>
-        <text
-          x={i * (blockWidth + blockGap) + blockWidth / 2}
-          y={blockHeight + 10} // Adjust y position for multiplier
-          textAnchor="middle"
-          fontSize="8"
-          fill="black"
-          fontWeight="bold" // Bold styling for multiplier
-        >
-          {multiplier}x
-        </text>
-        <text
-          x={i * (blockWidth + blockGap) + blockWidth / 2}
-          y={blockHeight + 20} // Adjust y position for date
-          textAnchor="middle"
-          fontSize="8"
-          fill="black"
-        >
-          {date}
-        </text>
-      </g>
-    );
+    blocks.push({
+      weekId,
+      value: displayValue,
+      multiplier,
+      date,
+      isRealized: i === 0,
+    });
   }
 
   return (
-    <svg width="100%" height="80">
-      {weekBlocks}
-    </svg>
+    <div className="week-blocks">
+      {blocks.map((block) => (
+        <div
+          key={block.weekId}
+          className={`week-block ${block.isRealized ? 'week-block--realized' : ''}`}
+        >
+          <div className="week-block__value">{block.value}</div>
+          <div className="week-block__multiplier">{block.multiplier}x</div>
+          <div className="week-block__date">{block.date}</div>
+        </div>
+      ))}
+    </div>
   );
 };
 

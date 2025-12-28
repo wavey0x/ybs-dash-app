@@ -1,9 +1,40 @@
-/* Special styling for the realized value block */
-.special-block rect {
-  stroke: gold;
-  stroke-width: 2;
+.week-blocks {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
 }
 
-.special-block text {
+.week-block {
+  flex: 1;
+  border: 1px solid #000;
+  text-align: center;
+  padding: 8px 4px;
+  min-width: 0;
+}
+
+.week-block--realized {
+  border: 2px solid gold;
+}
+
+.week-block__value {
+  font-size: 11px;
   font-weight: bold;
+  min-height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+}
+
+.week-block__multiplier {
+  font-size: 10px;
+  font-weight: bold;
+  margin-top: 6px;
+  color: #333;
+}
+
+.week-block__date {
+  font-size: 9px;
+  color: #666;
+  margin-top: 2px;
 }

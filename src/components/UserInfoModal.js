@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import WeekBlocks from './WeekBlocks';
+import './UserModalInfo.css';
 
 const UserInfoModal = ({
   isOpen,
@@ -35,15 +36,24 @@ const UserInfoModal = ({
   };
 
   const formatDateRange = (startTs) => {
-    const startDate = new Date(startTs * 1000).toLocaleDateString({
+    const startDate = new Date(startTs * 1000).toLocaleDateString('en-US', {
       month: '2-digit',
       day: '2-digit',
+      year: 'numeric',
     });
-    const endDate = new Date((startTs + 6 * 86400) * 1000).toLocaleDateString({
+    const endDate = new Date((startTs + 6 * 86400) * 1000).toLocaleDateString('en-US', {
       month: '2-digit',
       day: '2-digit',
+      year: 'numeric',
     });
-    return `${startDate} --> ${endDate}`;
+    return `${startDate} — ${endDate}`;
+  };
+
+  const formatNumber = (value) => {
+    return Number(value).toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
   };
 
   if (!userInfo) {
@@ -71,18 +81,28 @@ const UserInfoModal = ({
         >
           {'<'}
         </button>
-        <span>Week {currentWeekId}</span>
+        <span className="week-label">Week {currentWeekId}</span>
         <button onClick={() => changeWeek('next')}>{'>'}</button>
       </div>
       {loading ? (
         <div className="loading-indicator">Loading...</div>
       ) : (
-        <div>
-          <h4>{userInfo.account}</h4>
-          <p>{formatDateRange(userInfo.start_ts)}</p>
-          <p>Balance: {Number(userInfo.balance).toLocaleString(2)}</p>
-          <p>Weight: {Number(userInfo.weight).toLocaleString(2)}</p>
-          <p>Boost: {Number(userInfo.boost).toLocaleString(4)}x</p>
+        <div className="modal-content">
+          <p className="date-range">{formatDateRange(userInfo.start_ts)}</p>
+          <div className="user-stats">
+            <div className="stat-row">
+              <span className="stat-label">Balance</span>
+              <span className="stat-value">{formatNumber(userInfo.balance)}</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Weight</span>
+              <span className="stat-value">{formatNumber(userInfo.weight)}</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Boost</span>
+              <span className="stat-value">{Number(userInfo.boost).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}x</span>
+            </div>
+          </div>
           <WeekBlocks userInfo={userInfo} />
         </div>
       )}

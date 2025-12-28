@@ -1,5 +1,4 @@
-/* Special styling for the realized value block */
-
+/* Modal overlay */
 .ReactModal__Overlay {
   position: fixed;
   top: 0;
@@ -13,14 +12,121 @@
   z-index: 1000;
 }
 
+/* Modal content container */
 .ReactModal__Content {
   position: relative;
   background: #fff;
-  padding: 20px;
+  padding: 16px 20px 20px;
   border-radius: 4px;
   max-width: 370px;
   width: 90%;
-  text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   outline: none;
+}
+
+/* Modal header with close button */
+.modal-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 4px;
+}
+
+.modal-close-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  line-height: 1;
+}
+
+.modal-close-button:hover {
+  color: #000;
+}
+
+/* Week selector navigation */
+.week-selector {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.week-selector button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  padding: 2px 6px;
+}
+
+.week-selector button:hover {
+  background: #f5f5f5;
+}
+
+.week-selector button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.week-selector button:disabled:hover {
+  background: none;
+}
+
+.week-label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Modal content area */
+.modal-content {
+  text-align: left;
+}
+
+/* Date range display */
+.date-range {
+  color: #666;
+  font-size: 11px;
+  margin: 0 0 14px 0;
+}
+
+/* Two-column stats grid */
+.user-stats {
+  margin-bottom: 8px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 1px dotted #ddd;
+}
+
+.stat-row:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 12px;
+}
+
+.stat-value {
+  font-weight: bold;
+  font-size: 12px;
+  text-align: right;
+}
+
+/* Loading indicator */
+.loading-indicator {
+  text-align: center;
+  color: #666;
+  padding: 20px;
 }
